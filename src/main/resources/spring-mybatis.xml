@@ -20,6 +20,15 @@
     <mvc:resources mapping="/images/**" location="/static/images/" />
     <mvc:resources mapping="/layui/**" location="/static/layui/" />
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有路径 -->
+            <mvc:mapping path="/admin"/>
+            <mvc:mapping path="/search"/>
+            <bean class="cn.captainshen.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 配置thymeleaf -->
     <!-- Thymeleaf 视图解析器 -->
     <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
@@ -59,7 +68,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 加载mapper配置文件 -->
-        <!--<property name="mapperLocations" value="classpath:mapper/*.xml" />-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>
 
     <!-- 加载所有DAO接口类 -->
