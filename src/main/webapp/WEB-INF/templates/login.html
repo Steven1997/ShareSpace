@@ -13,7 +13,7 @@
 
     <div class="layui-row">
         <div class="layui-col-md4 layui-col-md-offset4 sera-login">
-                <form class="layui-form" action="/login" method="POST">
+                <form class="layui-form" action="/doLogin" method="POST">
 
                     <div class="layui-row sera-title">
                         <div class="layui-col-md4 layui-col-md-offset6">
@@ -46,7 +46,7 @@
     </div>
 </div>
 
-<!--<div class="error_msg" th:text="${error_msg}" style="display:none"></div>-->
+<div class="error_msg" th:text="${error_msg}" style="display:none"></div>
 
 <script>
     layui.use(['form','jquery'], function(){

@@ -10,10 +10,11 @@
 <body>
 
 <div class="index-container">
-
     <div class="layui-container">
         <div class="layui-row index-login">
             <div class="layui-col-md1 layui-col-md-offset12">
+                <span class="layui-text" th:if="${session.loginUser != null}">欢迎，</span>
+                <span class="layui-text" th:text="${session.loginUser?.getUsername()}"></span>
                 <a th:href="@{/login}" target="_self">登录</a> /
                 <a th:href="@{/register}" target="_self">注册</a>
             </div>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.captainshen.dao.UserDao">
+    <select id="selectUser" resultType="cn.captainshen.entity.User">
+        SELECT * FROM suser WHERE username = #{username} AND userpwd = #{userpwd}
+    </select>
+
+    <select id="checkUsername" resultType="cn.captainshen.entity.User">
+        SELECT * FROM suser WHERE username = #{username}
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO suser(username,userpwd,usersex) VALUES(#{username},#{userpwd},#{usersex});
+    </insert>
+</mapper>
