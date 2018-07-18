@@ -27,7 +27,7 @@ public class IndexController {
     @RequestMapping(value = "/exit",method = {RequestMethod.GET})
     public String exit(HttpSession httpSession){
         httpSession.invalidate();
-        return "redirect:/login";
+        return "redirect:/index";
     }
 
     @RequestMapping(value = "/search",method = {RequestMethod.GET})
