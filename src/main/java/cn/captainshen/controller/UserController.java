@@ -1,12 +1,13 @@
 package cn.captainshen.controller;
 
 import cn.captainshen.entity.User;
-import cn.captainshen.service.UserService;
+import cn.captainshen.service.impl.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -14,11 +15,10 @@ import java.io.IOException;
 @SessionAttributes(value = {"loginUser"})
 public class UserController {
     @Resource
-    private UserService userService;
+    private UserServiceImpl userService;
 
     /**
      * 用户登录
-     *
      * @param username
      * @param userpwd
      * @return
@@ -39,19 +39,14 @@ public class UserController {
 
     /**
      * 用户注册
-     *
      * @param
      * @return
      */
     @RequestMapping(value = "/doRegister", method = {RequestMethod.POST})
-    public String register(@RequestParam("username") String username,@RequestParam("usersex") String usersex,
-                           @RequestParam("password") String password,@RequestParam("repassword") String repassword,
-                           Model model) {
-        if(password == null || repassword == null || !password.equals(repassword)){
-            model.addAttribute("error_msg","两次输入的密码不匹配，请重新注册！");
-            return "register";
-        }
-        else if(userService.checkUsername(username)){
+    public String register(@RequestParam("username") String username, @RequestParam("usersex") String usersex,
+                           @RequestParam("password") String password, Model model,
+                           HttpSession session) {
+        if(userService.checkUsername(username)){
             model.addAttribute("error_msg","用户名已被注册，请重新注册！");
             return "register";
         }
@@ -60,8 +55,7 @@ public class UserController {
         user.setUsersex(usersex);
         user.setUserpwd(password);
         userService.addUser(user);
+        session.setAttribute("loginUser", user);
         return "index";
     }
-
-
 }
