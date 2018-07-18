@@ -1,0 +1,186 @@
+body{
+    background-image: url(/images/bg.jpg);
+    font-family: "Microsoft YaHei UI";
+}
+
+.search-login{
+    position: absolute;
+    top: 0;
+    right: 60px;
+    line-height: 40px;
+}
+
+/* search-nav 搜索栏 */
+
+.search-nav{
+    background-color: white;
+    margin: 0 auto;
+    margin-top: -10px;
+}
+
+.search-nav li{
+    width: 100px;
+}
+
+.search-nav-first{
+    margin-left: 100px;
+}
+
+/* 标题 */
+
+.search-title{
+    margin-top: 120px;
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+
+/* share-space选项卡 */
+
+.share-space form{
+    width: 960px;
+    margin: 0 auto;
+}
+
+.share-space input{
+    margin-top: 60px;
+    width: 600px;
+    margin-left: 180px;
+    margin-right: 180px;
+}
+
+/* my-space选项卡 */
+
+.my-space{
+    width: 960px;
+    margin: 0 auto;
+}
+
+/* 左边信息栏 */
+/* search-updown 已上传/下载框 */
+
+.search-updown{
+    background-color: white;
+    text-align: center;
+    height: 60px;
+    border-radius: 5px;
+}
+
+.search-updown li{
+    line-height: 30px;
+}
+
+.search-updown li:hover, .search-updown li a:hover{
+    background-color: gray;
+    color: white;
+}
+
+/* 用户信息栏 */
+
+.user-info{
+    margin-top: 30px;
+    background-color: white;
+    height: 300px;
+    text-algin: center;
+    color: gray;
+    border-radius: 5px;
+}
+
+.user-avatar{
+    text-align: center;
+}
+
+.user-avatar img,.user-name,.user-points,.user-settings{
+    margin-top: 20px;
+}
+
+.user-name p,.user-points p,.user-settings{
+    text-align: center;
+}
+
+.user-settings button{
+    border-radius: 8px;
+    background-color: palevioletred;
+}
+
+/* group-space选项卡 */
+
+.group-space{
+    width: 960px;
+    margin: 0 auto;
+}
+
+.group-left{
+    margin-top: 20px;
+    background-color: white;
+    height: 200px;
+    border-radius: 3px;
+}
+
+.group-select{
+    background-color: #666666;
+    color: gainsboro;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+}
+
+.group-create{
+    margin-top: 20px;
+    text-align: center;
+}
+
+.group-create button{
+    background-color: palevioletred;
+    border-radius: 8px;
+}
+
+.group-mid{
+    background-color: white;
+    min-height: 200px;
+    text-align: center;
+}
+
+.group-mid p{
+    margin-top: 10px;
+    background-color: palevioletred;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    color: white;
+}
+
+.group-mid ul{
+    margin-top: 30px;
+}
+
+.group-mid li{
+    color: black;
+    height: 40px;
+    line-height: 20px;
+}
+
+.group-right{
+    background-color: white;
+    min-height: 200px;
+    text-align: center;
+}
+
+.group-right p{
+    margin-top: 10px;
+    background-color: palevioletred;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    color: white;
+}
+
+.group-right ul{
+    margin-top: 30px;
+}
+
+.group-right li{
+    color: black;
+    height: 40px;
+    line-height: 20px;
+}

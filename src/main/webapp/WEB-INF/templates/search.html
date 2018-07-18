@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>搜索 - Share Space</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/search.css}"/>
+</head>
+<body>
+
+<div class="layui-tab">
+    <ul class="layui-tab-title search-nav">
+        <li class="share-space-op search-nav-first"><a th:href="@{/search(op=0)}" target="_self">Share Space</a></li>
+        <li class="my-space-op"><a th:href="@{/search(op=1)}" target="_self">My Space</a></li>
+        <li class="group-space-op"><a th:href="@{/search(op=2)}" target="_self">Group Space</a></li>
+    </ul>
+
+    <div class="search-login">
+        <p>欢迎您 <a th:href="@{/exit}">退出登录</a></p>
+    </div>
+
+    <div class="layui-tab-content">
+
+        <!--共享空间选项卡的内容-->
+        <div class="layui-tab-item share-space">
+
+            <div class="search-title">
+                <p>Share Space</p>
+            </div>
+
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="text" class="layui-input" name="keywords" required="" lay-verify="required" placeholder="Enter keywords here" autocomplete="off"/>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+        <!--我的空间选项卡的内容-->
+        <div class="layui-tab-item my-space">
+
+            <div class="container">
+                <div class="layui-row">
+
+                    <!-- 左边栏 -->
+                    <div class="layui-col-md3">
+                        <ul class="search-updown">
+                            <li><a target="_self" th:href="@{#}"><i class="layui-icon layui-icon-up"></i> 已上传</a></li>
+                            <li><a target="_self" th:href="@{#}"><i class="layui-icon layui-icon-down"></i> 已下载</a></li>
+                        </ul>
+
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <img style="width:100px;" th:src="@{/images/avatar.png}"/>
+                            </div>
+
+                            <div class="user-name">
+                                <p>sera</p>
+                            </div>
+
+                            <div class="user-points">
+                                <p>积分: 1000</p>
+                            </div>
+
+                            <div class="user-settings">
+                                <button class="layui-btn">修改个人信息</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右边栏 -->
+                    <div class="layui-col-md8 layui-col-md-offset1">
+                        <table class="layui-table">
+                            <colgroup>
+                                <col width="30"/>
+                                <col width="50"/>
+                                <col width="50"/>
+                                <col width="30"/>
+                                <col width="50"/>
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>文件名称</th>
+                                    <th>上传日期</th>
+                                    <th>描述</th>
+                                    <th>文件权限</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>test.txt</td>
+                                <td>2016-11-29</td>
+                                <td>人生就像是一场修行</td>
+                                <td>公开</td>
+                                <td>下载/删除</td>
+                            </tr>
+                            <tr>
+                                <td>许闲心</td>
+                                <td>2016-11-28</td>
+                                <td>于千万人之中遇见你所遇见的人，于千万年之中，时间的无涯的荒野里…</td>
+                                <td>私密</td>
+                                <td>下载/删除</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--群组空间选项卡的内容-->
+        <div class="layui-tab-item group-space">
+            <div class="container">
+                <div class="layui-row">
+                    <div class="layui-col-md3 layui-col-md-offset1">
+                        <div class="group-select">
+                            <i class="layui-icon layui-icon-user"></i> 所有群组
+                        </div>
+                        <div class="group-left">
+                            <div class="user-avatar">
+                                <img style="width:100px;" th:src="@{/images/avatar.png}"/>
+                            </div>
+                            <div class="group-create">
+                                <button class="layui-btn">创建群组</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md3 layui-col-md-offset1">
+                        <div class="group-mid">
+                            <p>我创建的群组</p>
+                            <ul>
+                                <li>我的群组</li>
+                                <li>我的群组2</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md3 layui-col-md-offset1">
+                        <div class="group-right">
+                            <p>我加入的群组</p>
+                            <ul>
+                                <li>加入群组1</li>
+                                <li>加入群组2</li>
+                                <li>加入群组1</li>
+                                <li>加入群组2</li>
+                                <li>加入群组1</li>
+                                <li>加入群组2</li>
+                                <li>加入群组1</li>
+                                <li>加入群组2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    //<![CDATA[
+    //获取url参数的值,比如GetQueryString("op") 返回 op参数值
+    function GetQueryString(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if( r != null )
+            return unescape(r[2]);
+        return null;
+    }
+
+    layui.use(['layer','element','jquery'], function(){
+        var element = layui.element,
+            $ = layui.$,
+            layer = layui.layer;
+
+        var op = GetQueryString("op");
+        if(op == null || op == 0){
+            var share_space_op = $(".share-space-op").attr("class")+" layui-this";
+            var share_space_class = $(".share-space").attr("class")+" layui-show";
+            $(".share-space-op")[0].setAttribute("class",share_space_op);
+            $(".share-space")[0].setAttribute("class",share_space_class);
+        }else if(op == 1){
+            var my_space_op = $(".my-space-op").attr("class")+" layui-this";
+            var my_space_class = $(".my-space").attr("class")+" layui-show";
+            $(".my-space-op")[0].setAttribute("class",my_space_op);
+            $(".my-space")[0].setAttribute("class",my_space_class);
+        }else if(op == 2){
+            var group_space_op = $(".group-space-op").attr("class")+" layui-this";
+            var group_space_class = $(".group-space").attr("class")+" layui-show";
+            $(".group-space-op")[0].setAttribute("class",group_space_op);
+            $(".group-space")[0].setAttribute("class",group_space_class);
+        }
+
+    });
+
+    //]]>
+</script>
+</body>
+</html>

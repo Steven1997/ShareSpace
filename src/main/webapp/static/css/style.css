@@ -1,0 +1,69 @@
+body{
+    background-image: url(/images/bg.jpg);
+}
+
+/* index-login 登录注册 */
+.index-login{
+    margin-top: 15px;
+}
+
+.index-login a{
+    color: white;
+}
+
+
+/* index-nav 导航栏 */
+
+.index-nav{
+    background-color: white;
+    text-align: center;
+    height: 100px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.index-nav div{
+    line-height: 100px;
+}
+
+.index-nav div ul{
+    margin-top: 18px;
+    float: right;
+    padding-right: 100px;
+    text-align:left;
+}
+
+.index-nav div li{
+    line-height: 30px;
+}
+
+.index-nav div .index-font-weight{
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+.index-nav div i{
+    font-size: 50px;
+}
+
+/* index-info 信息栏 */
+
+.index-info{
+    text-align: center;
+    color: white;
+    margin-top: 120px;
+    height: 170px;
+}
+
+.index-info h2, .index-info p{
+    line-height: 55px;
+}
+
+.index-info h2{
+    font-size: 30px;
+}
+
+.index-info button{
+    width: 480px;
+    margin: 0 auto;
+}
