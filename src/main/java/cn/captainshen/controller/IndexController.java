@@ -1,9 +1,12 @@
 package cn.captainshen.controller;
 
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class IndexController {
@@ -22,8 +25,26 @@ public class IndexController {
         return "register";
     }
 
+<<<<<<< HEAD
     @GetMapping(value = {"/search"})
     public String search(){
         return "search";
     }
+=======
+    @RequestMapping(value = "/exit",method = {RequestMethod.GET})
+    public String exit(HttpSession httpSession){
+        httpSession.invalidate();
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/search",method = {RequestMethod.GET})
+    public String search(){
+        return "search";
+    }
+
+    @RequestMapping(value = "/admin",method = {RequestMethod.GET})
+    public String admin(){
+        return "admin";
+    }
+>>>>>>> 201a38ac7b05d53c760b8c55f44486684ac8be3b
 }

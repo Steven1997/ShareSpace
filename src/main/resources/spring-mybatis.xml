@@ -24,6 +24,15 @@
     <mvc:resources mapping="/images/**" location="/static/images/" />
     <mvc:resources mapping="/layui/**" location="/static/layui/" />
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有路径 -->
+            <mvc:mapping path="/admin"/>
+            <mvc:mapping path="/search"/>
+            <bean class="cn.captainshen.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 配置thymeleaf -->
     <!-- Thymeleaf 视图解析器 -->
     <bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">

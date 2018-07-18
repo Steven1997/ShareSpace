@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.captainshen.dao.FileDao">
+  <!--  <resultMap id="fileMap" type="cn.captainshen.entity.File">
+        &lt;!&ndash;<result column="SALEAMOUNT" property="saleAmount" />&ndash;&gt;
+    </resultMap>-->
+    <!--<select id="getAllBooks" parameterType="java.lang.Integer" resultMap="bookMap">-->
+    <!--SELECT * FROM BOOKINFO LIMIT ${param1}, ${param2}-->
+    <!--</select>-->
+    <!--<insert id="insertOneBook" parameterType="cn.captainshen.entity.Book">-->
+    <!--INSERT IGNORE INTO BOOKINFO(ISBN, AUTHOR, TITLE, PRICE, PUBLISH_YEAR, DESCRIPTION, SALEAMOUNT)-->
+    <!--VALUES(#{ISBN}, #{author}, #{title}, #{price}, #{publishYear}, #{description}, #{saleAmount});-->
+    <!--</insert>-->
+
+    <!--<update id="updateBook" parameterType="cn.captainshen.entity.Book">-->
+    <!--UPDATE BOOKINFO-->
+    <!--SET AUTHOR=#{author},TITLE=#{title},PRICE=#{price},PUBLISH_YEAR=#{publishYear},DESCRIPTION=#{description},-->
+    <!--SALEAMOUNT=#{saleAmount}-->
+    <!--WHERE ISBN=#{ISBN}-->
+    <!--</update>-->
+
+</mapper>
