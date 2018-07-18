@@ -18,7 +18,6 @@ public class UserController {
 
     /**
      * 用户登录
-     *
      * @param username
      * @param userpwd
      * @return
@@ -39,19 +38,13 @@ public class UserController {
 
     /**
      * 用户注册
-     *
      * @param
      * @return
      */
     @RequestMapping(value = "/doRegister", method = {RequestMethod.POST})
     public String register(@RequestParam("username") String username,@RequestParam("usersex") String usersex,
-                           @RequestParam("password") String password,@RequestParam("repassword") String repassword,
-                           Model model) {
-        if(password == null || repassword == null || !password.equals(repassword)){
-            model.addAttribute("error_msg","两次输入的密码不匹配，请重新注册！");
-            return "register";
-        }
-        else if(userService.checkUsername(username)){
+                           @RequestParam("password") String password, Model model) {
+        if(userService.checkUsername(username)){
             model.addAttribute("error_msg","用户名已被注册，请重新注册！");
             return "register";
         }
@@ -62,6 +55,4 @@ public class UserController {
         userService.addUser(user);
         return "index";
     }
-
-
 }

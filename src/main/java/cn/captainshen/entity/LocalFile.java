@@ -12,7 +12,7 @@ public class LocalFile {
     String filePath;
     // 文件审核状态 0 待审核 1 通过 2 驳回
     int fileCheck;
-    // 文件公开状态 0 私密 1 用户所在组可见 2 全部公开
+    // 文件公开状态 0 私密 1 组用户可见 2 全部公开
     int fileState;
     // 文件下载次数
     int downloadNum;

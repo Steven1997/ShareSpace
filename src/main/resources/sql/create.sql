@@ -41,12 +41,12 @@ CREATE TABLE `sfile`(
   `filename` VARCHAR(20) NOT NULL ,
   `filedesc` VARCHAR(100) NOT NULL ,
   `filetag` VARCHAR(50) NOT NULL ,
-  `filecheck` INT(1) NOT NULL ,
-  `filestate` INT(1) NOT NULL ,
-  `downloadnum` INT(10) NOT NULL ,
+  `filecheck` INT(1) NOT NULL DEFAULT 0,
+  `filestate` INT(1) NOT NULL DEFAULT 0,
+  `downloadnum` INT(10) NOT NULL DEFAULT 0,
   `userid` INT(10) REFERENCES suser(userid),
   `filedate` DATE NOT NULL ,
-  `filetype` VARCHAR(20)
+  `filetype` VARCHAR(20) NOT NULL DEFAULT "未知类型"
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- -------------------------------
