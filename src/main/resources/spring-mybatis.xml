@@ -27,8 +27,8 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <!-- 拦截所有路径 -->
-            <mvc:mapping path="/admin"/>
-            <mvc:mapping path="/search"/>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/search/**"/>
             <bean class="cn.captainshen.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

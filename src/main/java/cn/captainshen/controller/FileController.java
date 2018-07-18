@@ -1,6 +1,7 @@
 package cn.captainshen.controller;
 
 
+import cn.captainshen.entity.User;
 import cn.captainshen.enums.FileUploadStatusEnum;
 import cn.captainshen.util.FileUtil;
 import org.apache.commons.fileupload.FileUpload;
@@ -36,8 +37,9 @@ public class FileController {
                          @RequestParam("file")MultipartFile file,
                          HttpSession session,
                          Model model){
-        String username = (String) session.getAttribute("loginUser");
-        String saveInfo = fileUtil.saveUploadFile("沈佳乐", file, System.currentTimeMillis()).getStatusInfo();
+        User user = (User) session.getAttribute("loginUser");
+
+        String saveInfo = fileUtil.saveUploadFile(user.getUsername(), file, System.currentTimeMillis()).getStatusInfo();
         System.out.println(saveInfo);
         // 文件保存失败
         if(!saveInfo.equals(FileUploadStatusEnum.SUCCESS.getStatusInfo())){

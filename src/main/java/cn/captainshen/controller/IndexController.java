@@ -25,12 +25,6 @@ public class IndexController {
         return "register";
     }
 
-<<<<<<< HEAD
-    @GetMapping(value = {"/search"})
-    public String search(){
-        return "search";
-    }
-=======
     @RequestMapping(value = "/exit",method = {RequestMethod.GET})
     public String exit(HttpSession httpSession){
         httpSession.invalidate();
@@ -46,5 +40,5 @@ public class IndexController {
     public String admin(){
         return "admin";
     }
->>>>>>> 201a38ac7b05d53c760b8c55f44486684ac8be3b
+
 }

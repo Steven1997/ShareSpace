@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 @Component("fileUtil")
 public class FileUtil {
     ResourceBundle resource = ResourceBundle.getBundle("config");
+    String rootWorkspace = resource.getString("workspace");
     /**
      * 保存上传文件至工作空间
      * @param username      用户名
@@ -20,10 +21,7 @@ public class FileUtil {
      * @throws IOException
      */
     public FileUploadStatusEnum saveUploadFile(String username, MultipartFile uploadFile, long timeMillis){
-        // 加载文件上传属性配置
-        String workspace = resource.getString("workspace");
-        workspace += "/" + username;
-        System.out.println(workspace);
+        String workspace = rootWorkspace + "/" + username;
         // 创建用户文件夹
         File file = new File(workspace);
         if(!file.isDirectory()){
@@ -35,23 +33,34 @@ public class FileUtil {
         if(uploadFile != null){
             try{
                 String fileName = uploadFile.getOriginalFilename();
-                // 将真实存储文件名改为name + (time_tag) + suffix
-                int index = fileName.lastIndexOf(".");
-                String name = "";
-                for(int i = 0; i < index; ++i){
-                    name += fileName.charAt(i);
-                }
-                name += "(" + timeMillis + ").";
-                for(int i = index + 1; i < fileName.length(); ++i){
-                    name += fileName.charAt(i);
-                }
-                System.out.println(name);
-                uploadFile.transferTo(new File(workspace + "/" + name));
+                String fileSaveLocation = this.getFileSaveLocation(username, fileName, timeMillis);
+                uploadFile.transferTo(new File(fileSaveLocation));
             }catch (Exception e){
                 e.printStackTrace();
                 return FileUploadStatusEnum.UNKNOWN_FAILURE;
             }
         }
         return FileUploadStatusEnum.SUCCESS;
+    }
+
+    /**
+     * 获取文件真实保存地址
+     * @param username  用户名
+     * @param fileName  文件名
+     * @return
+     */
+    public String getFileSaveLocation(String username, String fileName, long timeMillis){
+        String workspace = rootWorkspace +  "/" + username;
+        // 将真实存储文件名改为name + (time_tag) + suffix
+        int index = fileName.lastIndexOf(".");
+        String name = "";
+        for(int i = 0; i < index; ++i){
+            name += fileName.charAt(i);
+        }
+        name += "(" + timeMillis + ").";
+        for(int i = index + 1; i < fileName.length(); ++i){
+            name += fileName.charAt(i);
+        }
+        return  workspace + "/" + name;
     }
 }
