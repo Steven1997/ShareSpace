@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class GroupController {
     @RequestMapping(value = "/doCreateGroup",method = {RequestMethod.POST})
     public String doCreateGroup(Group group){
-
+        return "";
     }
 }

@@ -11,7 +11,7 @@
         SELECT * FROM suser WHERE username = #{username}
     </select>
 
-    <insert id="addUser">
+    <insert id="addUser" parameterType="cn.captainshen.entity.User">
         INSERT INTO suser(username,userpwd,usersex) VALUES(#{username},#{userpwd},#{usersex});
     </insert>
 </mapper>

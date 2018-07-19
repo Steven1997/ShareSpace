@@ -31,7 +31,7 @@ public class UserController {
         User loginUser = userService.doLogin(username, userpwd);
         if (loginUser != null) {
             model.addAttribute("loginUser",loginUser);
-            return "index";
+            return "redirect:/index";
         }
         model.addAttribute("error_msg","用户名或密码错误，请重新登录！");
         return "login";
@@ -55,7 +55,6 @@ public class UserController {
         user.setUsersex(usersex);
         user.setUserpwd(password);
         userService.addUser(user);
-        session.setAttribute("loginUser", user);
-        return "index";
+        return "redirect:/index";
     }
 }

@@ -1,6 +1,11 @@
 package cn.captainshen.util;
 
+import cn.captainshen.dao.FileDao;
 import cn.captainshen.enums.FileUploadStatusEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +15,9 @@ import java.util.ResourceBundle;
 
 @Component("fileUtil")
 public class FileUtil {
+    @Autowired
+    private FileDao fileDao;
+
     ResourceBundle resource = ResourceBundle.getBundle("config");
     String rootWorkspace = resource.getString("workspace");
     /**
@@ -63,4 +71,49 @@ public class FileUtil {
         }
         return  workspace + "/" + name;
     }
+
+    /**
+     * 构建下载文件
+     * @param file
+     * @return
+     */
+    public ResponseEntity<byte[]> buildResponseEntity(File file, int fileId){
+        try{
+            byte[] body = null;
+            // 获取文件
+            InputStream in = new FileInputStream(file);
+            body = new byte[in.available()];
+            in.read(body);
+            HttpHeaders headers = new HttpHeaders();
+            // 设置文件类型
+            String fileName = fileDao.findFileByFileId(fileId).getFileName();
+            headers.add("Content-Disposition", "attachment;filename=" + fileName);
+            HttpStatus statusCode = HttpStatus.OK;
+            ResponseEntity<byte[]> entity = new ResponseEntity<>(body, headers, statusCode);
+            return entity;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 构建错误文件(权限不足)
+     * @return
+     */
+    public ResponseEntity<byte[]> buildErrorResponseEntity(){
+        try {
+            byte[] errorBody = new byte[1];
+            HttpHeaders headers = new HttpHeaders();
+            // 设置文件类型
+            headers.add("Content-Disposition", "attachment;filename=" + "error.txt");
+            HttpStatus statusCode = HttpStatus.OK;
+            ResponseEntity<byte[]> entity = new ResponseEntity<>(errorBody, headers, statusCode);
+            return entity;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
