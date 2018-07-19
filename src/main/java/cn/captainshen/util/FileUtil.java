@@ -5,6 +5,7 @@ import cn.captainshen.enums.FileUploadStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,8 +87,11 @@ public class FileUtil {
             in.read(body);
             HttpHeaders headers = new HttpHeaders();
             // 设置文件类型
-            String fileName = fileDao.findFileByFileId(fileId).getFileName();
-            headers.add("Content-Disposition", "attachment;filename=" + fileName);
+            // 解决中文乱码问题
+            String fileName=new String(fileDao.findFileByFileId(fileId).getFileName().getBytes("utf-8"),"iso-8859-1");
+
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", fileName);
             HttpStatus statusCode = HttpStatus.OK;
             ResponseEntity<byte[]> entity = new ResponseEntity<>(body, headers, statusCode);
             return entity;
