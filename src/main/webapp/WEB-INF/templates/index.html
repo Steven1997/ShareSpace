@@ -56,8 +56,20 @@
 
 </div>
 
-<script>
+<div class="error_msg" th:text="${error_msg}" style="display:none"></div>
 
+<script>
+    layui.use(['form','jquery'], function(){
+        var form = layui.form,
+            $ = layui.$; //导入内置jquery库
+
+        var error_msg = $(".error_msg")[0].innerHTML;
+        if(error_msg != ""){
+            layer.msg(error_msg); //打印报错信息
+        }
+
+
+    });
 </script>
 </body>
 </html>

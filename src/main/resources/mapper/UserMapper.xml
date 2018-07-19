@@ -11,8 +11,8 @@
         SELECT * FROM suser WHERE username = #{username}
     </select>
 
-    <insert id="addUser" parameterType="cn.captainshen.entity.User">
-        INSERT INTO suser(username,userpwd,usersex) VALUES(#{username},#{userpwd},#{usersex});
+    <insert id="addUser">
+        INSERT INTO suser(username,userpwd,usersex,grade) VALUES(#{username},#{userpwd},#{usersex},#{grade})
     </insert>
 
     <select id="findGroupIdsByUserId" resultType="java.lang.Integer">
