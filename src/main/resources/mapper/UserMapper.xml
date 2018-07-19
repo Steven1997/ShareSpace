@@ -14,4 +14,8 @@
     <insert id="addUser" parameterType="cn.captainshen.entity.User">
         INSERT INTO suser(username,userpwd,usersex) VALUES(#{username},#{userpwd},#{usersex});
     </insert>
+
+    <select id="findGroupIdsByUserId" resultType="java.lang.Integer">
+        SELECT groupid FROM sguser WHERE userid = #{userId}
+    </select>
 </mapper>

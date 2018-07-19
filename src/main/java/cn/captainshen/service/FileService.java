@@ -52,8 +52,16 @@ public interface FileService {
 
     /**
      * 根据文件id获取真实文件
-     * @param id
+     * @param fileId
      * @return
      */
     File findRealFileByFileId(int fileId);
+
+    /**
+     * 判断用户下载权限
+     * @param user
+     * @param localFile
+     * @return true 可下载 false 不可下载
+     */
+    Boolean checkDownloadable(User user, LocalFile localFile);
 }

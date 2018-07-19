@@ -41,6 +41,7 @@ public class FileServiceImpl implements FileService {
         file.setFileDate(fileDate);
         file.setFilePath(fileUtil.getFileSaveLocation(user.getUsername(), fileName, timeMillis));
         file.setFileType(multipartFile.getContentType());
+        file.setFileTag("none");
         file.setUserid(user.getUserid());
         switch (fileState){
             case "private": state = 0; break;
@@ -55,6 +56,21 @@ public class FileServiceImpl implements FileService {
             return FileUploadStatusEnum.SQL_ERROR;
         }
         return FileUploadStatusEnum.SUCCESS;
+    }
+
+    @Override
+    public Boolean checkDownloadable(User user, LocalFile localFile) {
+        // 用户自己的文件或公开文件 直接下载
+        if(localFile.getUserid() == user.getUserid() || localFile.getFileState() == 2){
+            return true;
+        }
+        // 同组内的用户文件 可下载
+        Boolean res =false;
+
+        if(true){
+           res = true;
+        }
+        return res;
     }
 
     @Override
