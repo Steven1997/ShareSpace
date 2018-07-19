@@ -476,8 +476,7 @@
                     <div class="group-mid">
                         <p>我创建的群组</p>
                         <ul>
-                            <li>我的群组</li>
-                            <li>我的群组2</li>
+                            <li th:each="createGroupList:${session.createGroupList}" th:text="${createGroupList.getGroupname()}"></li>
                         </ul>
                     </div>
                 </div>
@@ -486,14 +485,7 @@
                     <div class="group-right">
                         <p>我加入的群组</p>
                         <ul>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
+                            <li th:each="joinGroupList:${session.joinGroupList}" th:text="${joinGroupList.getGroupname()}"></li>
                         </ul>
                     </div>
                 </div>
@@ -624,5 +616,4 @@
     //]]>
 </script>
 </body>
->>>>>>> 24ae1891db436f7d2ee5527dad475e292f6034fe
 </html>
