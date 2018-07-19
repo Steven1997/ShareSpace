@@ -17,8 +17,8 @@
     </ul>
 
     <div class="search-login">
-        <span  th:text="'欢迎您 ' + ${session.loginUser.getUsername()}"></span>
-        <span><a th:href="@{/exit}">退出登录</a></span>
+        <span class="upload-a"><a th:href="@{/upload}"><button class="layui-btn">上传</button></a></span>
+        <p>欢迎您 <a th:href="@{/exit}">退出登录</a></p>
     </div>
 
     <div class="layui-tab-content">
@@ -59,7 +59,7 @@
                             </div>
 
                             <div class="user-name">
-                                <p th:text="${session.loginUser.getUsername()}"></p>
+                                <p>sera</p>
                             </div>
 
                             <div class="user-points">
@@ -116,51 +116,94 @@
 
         <!--群组空间选项卡的内容-->
         <div class="layui-tab-item group-space">
-            <div class="container">
-                <div class="layui-row">
-                    <div class="layui-col-md3 layui-col-md-offset1">
-                        <div class="group-select">
-                            <i class="layui-icon layui-icon-user"></i> 所有群组
-                        </div>
-                        <div class="group-left">
-                            <div class="user-avatar">
-                                <img style="width:100px;" th:src="@{/images/avatar.png}"/>
-                            </div>
-                            <div class="group-create">
-                                <button class="layui-btn">创建群组</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="layui-col-md3 layui-col-md-offset1">
-                        <div class="group-mid">
-                            <p>我创建的群组</p>
-                            <ul>
-                                <li>我的群组</li>
-                                <li>我的群组2</li>
-                            </ul>
-                        </div>
-                    </div>
+        </div>
+    </div>
+</div>
 
-                    <div class="layui-col-md3 layui-col-md-offset1">
-                        <div class="group-right">
-                            <p>我加入的群组</p>
-                            <ul>
-                                <li>加入群组1</li>
-                                <li>加入群组2</li>
-                                <li>加入群组1</li>
-                                <li>加入群组2</li>
-                                <li>加入群组1</li>
-                                <li>加入群组2</li>
-                                <li>加入群组1</li>
-                                <li>加入群组2</li>
-                            </ul>
+<div style="display:none;">
+    <div class="group-space-content">
+        <div class="container">
+            <div class="layui-row">
+                <div class="layui-col-md3 layui-col-md-offset1">
+                    <div class="group-select">
+                        <i class="layui-icon layui-icon-user"></i> 所有群组
+                    </div>
+                    <div class="group-left">
+                        <div class="user-avatar">
+                            <img style="width:100px;" th:src="@{/images/avatar.png}"/>
+                        </div>
+                        <div class="group-create">
+                            <a th:href="@{/search(op=2,ct=1)}"><button class="layui-btn">创建群组</button></a>
                         </div>
                     </div>
                 </div>
+
+                <div class="layui-col-md3 layui-col-md-offset1">
+                    <div class="group-mid">
+                        <p>我创建的群组</p>
+                        <ul>
+                            <li>我的群组</li>
+                            <li>我的群组2</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3 layui-col-md-offset1">
+                    <div class="group-right">
+                        <p>我加入的群组</p>
+                        <ul>
+                            <li>加入群组1</li>
+                            <li>加入群组2</li>
+                            <li>加入群组1</li>
+                            <li>加入群组2</li>
+                            <li>加入群组1</li>
+                            <li>加入群组2</li>
+                            <li>加入群组1</li>
+                            <li>加入群组2</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
 
-
+    <div class="group-space-create-content">
+        <div class="create-group">
+            <h2>创建群组</h2>
+            <hr/>
+            <form class="layui-form" action="" method="POST">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">群组名:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="group_name" required="" lay-verify="required" placeholder="请输入群组名" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密 码:</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="pwd" required=""  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input pwd"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">确认密码:</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="pwd2" required="" lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input pwd2"/>
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">群组描述:</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" placeholder="请输入描述" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <input style="display:none" value="" name="userid" type="password"/>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="form-create-group">立即提交</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -177,12 +220,14 @@
         return null;
     }
 
-    layui.use(['layer','element','jquery'], function(){
+    layui.use(['layer','element','jquery','form'], function(){
         var element = layui.element,
             $ = layui.$,
-            layer = layui.layer;
+            layer = layui.layer,
+            form = layui.form;
 
         var op = GetQueryString("op");
+        var ct = GetQueryString("ct");
         if(op == null || op == 0){
             var share_space_op = $(".share-space-op").attr("class")+" layui-this";
             var share_space_class = $(".share-space").attr("class")+" layui-show";
@@ -199,6 +244,25 @@
             $(".group-space-op")[0].setAttribute("class",group_space_op);
             $(".group-space")[0].setAttribute("class",group_space_class);
         }
+
+        var group_space = $(".group-space")[0];
+        if(ct == 1){
+            var group_space_create_content = $(".group-space-create-content")[0].innerHTML;
+            group_space.innerHTML = group_space_create_content;
+        }else{
+            var group_space_content = $(".group-space-content")[0].innerHTML;
+            group_space.innerHTML = group_space_content;
+        }
+
+        //监听提交
+        form.on('submit(form-create-group)', function(data){
+            if($(".pwd").val() != $(".pwd2").val()){
+                layer.msg("密码输入不一致！");
+            }else if($(".pwd").val() == $(".pwd2").val()){
+                return true;
+            }
+            return false;
+        });
 
     });
 

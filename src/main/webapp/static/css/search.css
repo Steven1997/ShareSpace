@@ -6,8 +6,15 @@ body{
 .search-login{
     position: absolute;
     top: 0;
-    right: 60px;
+    right: 20px;
+    width: 300px;
     line-height: 40px;
+}
+
+.search-login .upload-a{
+    float: left;
+    margin-right: 60px;
+    line-height: 10px;
 }
 
 /* search-nav 搜索栏 */
@@ -183,4 +190,15 @@ body{
     color: black;
     height: 40px;
     line-height: 20px;
+}
+
+/* 创建群组表单 */
+
+.group-space{
+    color: white;
+}
+
+.group-space .create-group{
+    width: 500px;
+    margin: 0 auto;
 }
