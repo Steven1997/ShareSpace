@@ -31,6 +31,7 @@ public class UserController {
         User loginUser = userService.doLogin(username, userpwd);
         if (loginUser != null) {
             model.addAttribute("loginUser",loginUser);
+            model.addAttribute("error_msg","登录成功！");
             return "index";
         }
         model.addAttribute("error_msg","用户名或密码错误，请重新登录！");
@@ -45,7 +46,7 @@ public class UserController {
     @RequestMapping(value = "/doRegister", method = {RequestMethod.POST})
     public String register(@RequestParam("username") String username, @RequestParam("usersex") String usersex,
                            @RequestParam("password") String password, Model model,
-                           HttpSession session) {
+                           HttpSession session) throws IOException {
         if(userService.checkUsername(username)){
             model.addAttribute("error_msg","用户名已被注册，请重新注册！");
             return "register";
@@ -54,8 +55,11 @@ public class UserController {
         user.setUsername(username);
         user.setUsersex(usersex);
         user.setUserpwd(password);
+        user.setGrade(Integer.valueOf(50)); //原始积分为50
         userService.addUser(user);
+        user = userService.doLogin(username,password);
         session.setAttribute("loginUser", user);
+        model.addAttribute("error_msg","恭喜您，注册成功！");
         return "index";
     }
 }

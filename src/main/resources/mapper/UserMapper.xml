@@ -12,6 +12,6 @@
     </select>
 
     <insert id="addUser">
-        INSERT INTO suser(username,userpwd,usersex) VALUES(#{username},#{userpwd},#{usersex});
+        INSERT INTO suser(username,userpwd,usersex,grade) VALUES(#{username},#{userpwd},#{usersex},#{grade});
     </insert>
 </mapper>

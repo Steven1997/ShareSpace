@@ -4,7 +4,6 @@ package cn.captainshen.controller;
 import cn.captainshen.entity.User;
 import cn.captainshen.enums.FileUploadStatusEnum;
 import cn.captainshen.util.FileUtil;
-import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

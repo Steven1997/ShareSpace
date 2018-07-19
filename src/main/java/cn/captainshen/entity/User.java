@@ -5,7 +5,7 @@ public class User {
     private String username; //用户名
     private String userpwd; //用户密码
     private String usersex; //用户性别
-    private Integer grade; //用户等级
+    private Integer grade; //用户积分
     private String userimage; //用户头像
 
     public User() {

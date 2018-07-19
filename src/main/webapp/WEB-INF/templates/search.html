@@ -18,7 +18,8 @@
 
     <div class="search-login">
         <span class="upload-a"><a th:href="@{/upload}"><button class="layui-btn">上传</button></a></span>
-        <p>欢迎您 <a th:href="@{/exit}">退出登录</a></p>
+        <span th:text="'欢迎您 ' + ${session.loginUser.getUsername()}"></span>
+        <span><a th:href="@{/exit}">退出登录</a></span>
     </div>
 
     <div class="layui-tab-content">
@@ -59,11 +60,11 @@
                             </div>
 
                             <div class="user-name">
-                                <p>sera</p>
+                                <p th:text="${session.loginUser.getUsername()}"></p>
                             </div>
 
                             <div class="user-points">
-                                <p>积分: 1000</p>
+                                <p th:text="'积分：' + ${session.loginUser.getGrade()}"></p>
                             </div>
 
                             <div class="user-settings">
@@ -143,8 +144,7 @@
                     <div class="group-mid">
                         <p>我创建的群组</p>
                         <ul>
-                            <li>我的群组</li>
-                            <li>我的群组2</li>
+                            <li th:each="createGroupList:${session.createGroupList}" th:text="${createGroupList.getGroupname()}"></li>
                         </ul>
                     </div>
                 </div>
@@ -153,14 +153,7 @@
                     <div class="group-right">
                         <p>我加入的群组</p>
                         <ul>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
-                            <li>加入群组1</li>
-                            <li>加入群组2</li>
+                            <li  th:each="joinGroupList:${session.joinGroupList}"  th:text="${joinGroupList.getGroupname()}"></li>
                         </ul>
                     </div>
                 </div>
@@ -172,7 +165,7 @@
         <div class="create-group">
             <h2>创建群组</h2>
             <hr/>
-            <form class="layui-form" action="" method="POST">
+            <form class="layui-form" action="/doCreateGroup" method="POST">
                 <div class="layui-form-item">
                     <label class="layui-form-label">群组名:</label>
                     <div class="layui-input-inline">
@@ -197,7 +190,7 @@
                         <textarea name="desc" placeholder="请输入描述" class="layui-textarea"></textarea>
                     </div>
                 </div>
-                <input style="display:none" value="" name="userid" type="password"/>
+                <input style="display:none" th:value="${session.loginUser.getUserid()}" name="userid" type="password"/>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit="" lay-filter="form-create-group">立即提交</button>
@@ -207,6 +200,8 @@
         </div>
     </div>
 </div>
+
+<div class="error_msg" th:text="${error_msg}" style="display:none"></div>
 
 <script>
     //<![CDATA[
@@ -252,6 +247,11 @@
         }else{
             var group_space_content = $(".group-space-content")[0].innerHTML;
             group_space.innerHTML = group_space_content;
+        }
+
+        var error_msg = $(".error_msg")[0].innerHTML;
+        if(error_msg != ""){
+            layer.msg(error_msg); //打印报错信息
         }
 
         //监听提交
