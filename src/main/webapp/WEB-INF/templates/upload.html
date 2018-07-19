@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -77,4 +78,70 @@
 </script>
 
 </body>
+=======
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Upload - Share Space</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/upload.css}"/>
+</head>
+<body>
+
+<div class="upload-space">
+    <h2>上传文件</h2>
+    <hr/>
+
+    <form class="layui-form" action="/doUpload" method="POST" enctype="multipart/form-data">
+        <div class="file">
+            <input type="file" name="file"/>
+        </div>
+        <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">文件名</label>-->
+            <!--<div class="layui-input-inline">-->
+                <!--<input type="text" name="file_name" required=""  lay-verify="required" placeholder="请输入文件名" autocomplete="off" class="layui-input"/>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-inline">
+                <select name="state" lay-verify="required">
+                    <option value=""></option>
+                    <option value="public">公开</option>
+                    <option value="group">组用户可见</option>
+                    <option value="private">私密</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">文件描述</label>
+            <div class="layui-input-block">
+                <textarea name="description" placeholder="请输入文件描述" class="layui-textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit" lay-filter="form-upload-file">上传文件</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form','jquery'], function(){
+        var form = layui.form,
+            $ = layui.$;
+
+        form.on('submit(form-upload-file',function(data){
+            layer.msg("上传成功");
+            return false;
+        });
+    });
+</script>
+
+</body>
+>>>>>>> 24ae1891db436f7d2ee5527dad475e292f6034fe
 </html>

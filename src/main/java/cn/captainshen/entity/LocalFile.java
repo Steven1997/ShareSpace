@@ -3,9 +3,16 @@ package cn.captainshen.entity;
 import java.util.Date;
 
 public class LocalFile {
+    // 文件名
     String fileName;
+    // 文件上传者名
+    String userName;
     // 文件描述
     String fileDesc;
+    // 文件上传者id
+    int userid;
+    // 文件id
+    int fileid;
     // 文件标签
     String fileTag;
     // 文件路径
@@ -20,8 +27,22 @@ public class LocalFile {
     Date fileDate;
     // 文件类型
     String fileType;
-    // 文件上传者id
-    int userid;
+
+    public int getFileid() {
+        return fileid;
+    }
+
+    public void setFileid(int fileid) {
+        this.fileid = fileid;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getFileName() {
         return fileName;

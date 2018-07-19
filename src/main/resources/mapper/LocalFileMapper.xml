@@ -3,22 +3,43 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.captainshen.dao.FileDao">
-  <!--  <resultMap id="fileMap" type="cn.captainshen.entity.File">
-        &lt;!&ndash;<result column="SALEAMOUNT" property="saleAmount" />&ndash;&gt;
-    </resultMap>-->
-    <!--<select id="getAllBooks" parameterType="java.lang.Integer" resultMap="bookMap">-->
-    <!--SELECT * FROM BOOKINFO LIMIT ${param1}, ${param2}-->
-    <!--</select>-->
-    <!--<insert id="insertOneBook" parameterType="cn.captainshen.entity.Book">-->
-    <!--INSERT IGNORE INTO BOOKINFO(ISBN, AUTHOR, TITLE, PRICE, PUBLISH_YEAR, DESCRIPTION, SALEAMOUNT)-->
-    <!--VALUES(#{ISBN}, #{author}, #{title}, #{price}, #{publishYear}, #{description}, #{saleAmount});-->
-    <!--</insert>-->
+    <resultMap id="fileMap" type="cn.captainshen.entity.LocalFile">
+        <result column="fileid" property="fileid" />
+        <result column="filepath" property="filePath" />
+        <result column="filename" property="fileName" />
+        <result column="filedesc" property="fileDesc" />
+        <result column="filetag" property="fileTag" />
+        <result column="filecheck" property="fileCheck" />
+        <result column="filestate" property="fileState" />
+        <result column="downloadnum" property="downloadNum" />
+        <result column="userid" property="userid" />
+        <result column="username" property="userName" />
+        <result column="filedate" property="fileDate" />
+        <result column="filetype" property="fileType" />
+    </resultMap>
 
-    <!--<update id="updateBook" parameterType="cn.captainshen.entity.Book">-->
-    <!--UPDATE BOOKINFO-->
-    <!--SET AUTHOR=#{author},TITLE=#{title},PRICE=#{price},PUBLISH_YEAR=#{publishYear},DESCRIPTION=#{description},-->
-    <!--SALEAMOUNT=#{saleAmount}-->
-    <!--WHERE ISBN=#{ISBN}-->
-    <!--</update>-->
+    <insert id="addFile" parameterType="cn.captainshen.entity.LocalFile">
+      INSERT IGNORE INTO sfile(filepath, filename, filedesc, userid, filedate, filetype, filestate) VALUES(
+      #{filePath}, #{fileName}, #{fileDesc}, #{userid}, #{fileDate}, #{fileType}, #{fileState})
+    </insert>
 
+    <select id="findFileByDesc" resultMap="fileMap">
+        SELECT * FROM sfile WHERE filedesc LIKE concat('%', #{fileDesc}, '%')
+    </select>
+
+    <select id="findFileByName" resultMap="fileMap">
+        SELECT * FROM sfile WHERE filename LIKE concat('%', #{fileName}, '%')
+    </select>
+    
+    <select id="findFileByFileId" resultType="cn.captainshen.entity.LocalFile">
+        SELECT * FROM sfile WHERE fileid = #{fileId};
+    </select>
+
+    <select id="findFileByUserId" resultMap="fileMap">
+        SELECT * FROM sfile WHERE userid = #{param1}
+    </select>
+
+    <select id="findDownloadedFileByUserId" resultMap="fileMap">
+        SELECT * FROM sdfile WHERE userid = #{userId}
+    </select>
 </mapper>

@@ -26,6 +26,7 @@ public class GroupController {
 
     /**
      * 创建群组
+     *
      * @param userid
      * @param groupname
      * @param grouppwd
@@ -34,27 +35,24 @@ public class GroupController {
      * @param httpSession
      * @return
      */
-    @RequestMapping(value = "/doCreateGroup",method = {RequestMethod.POST})
+    @RequestMapping(value = "/doCreateGroup", method = {RequestMethod.POST})
     public String doCreateGroup(@RequestParam("userid") String userid, @RequestParam("group_name") String groupname,
-                                @RequestParam("pwd") String grouppwd, @RequestParam("desc") String groupdesc, RedirectAttributes redirectAttributes, HttpSession httpSession){
-        Group query = groupService.checkGroup(userid,groupname);
+                                @RequestParam("pwd") String grouppwd, @RequestParam("desc") String groupdesc, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        Group query = groupService.checkGroup(userid, groupname);
 
-        if(query == null){
+        if (query == null) {
             groupService.createGroup(userid, groupname, grouppwd, groupdesc);
-            User user = (User)httpSession.getAttribute("loginUser");
-            Integer groupnum = groupService.selectGroupId(userid,groupname);
-            groupService.addGroupMember(groupnum.toString(),user.getUserid().toString(),user.getUsername(),groupname);
-            redirectAttributes.addFlashAttribute("error_msg","群组创建成功！");
+            User user = (User) httpSession.getAttribute("loginUser");
+            Integer groupnum = groupService.selectGroupId(userid, groupname);
+            groupService.addGroupMember(groupnum.toString(), user.getUserid().toString(), user.getUsername(), groupname);
+            redirectAttributes.addFlashAttribute("error_msg", "群组创建成功！");
             return "redirect:/search?op=2";
+        } else {
+            redirectAttributes.addFlashAttribute("error_msg", "您已创建过同名群组，请重新创建！");
+            return "redirect:/search?op=2&ct=1";
         }
-        else{
-            redirectAttributes.addFlashAttribute("error_msg","您已创建过同名群组，请重新创建！");
-           return "redirect:/search?op=2&ct=1";
-        }
+
 
     }
-
-
-
 
 }

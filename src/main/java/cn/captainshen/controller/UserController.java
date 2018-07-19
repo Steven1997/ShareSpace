@@ -33,6 +33,7 @@ public class UserController {
             model.addAttribute("loginUser",loginUser);
             model.addAttribute("error_msg","登录成功！");
             return "index";
+
         }
         model.addAttribute("error_msg","用户名或密码错误，请重新登录！");
         return "login";
