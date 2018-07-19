@@ -17,7 +17,8 @@
     </ul>
 
     <div class="search-login">
-        <p>欢迎您 <a th:href="@{/exit}">退出登录</a></p>
+        <span  th:text="'欢迎您 ' + ${session.loginUser.getUsername()}"></span>
+        <span><a th:href="@{/exit}">退出登录</a></span>
     </div>
 
     <div class="layui-tab-content">
@@ -58,7 +59,7 @@
                             </div>
 
                             <div class="user-name">
-                                <p>sera</p>
+                                <p th:text="${session.loginUser.getUsername()}"></p>
                             </div>
 
                             <div class="user-points">

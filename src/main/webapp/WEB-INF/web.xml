@@ -47,4 +47,15 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+  <!--FIXME ERROR_PAGE没写 -->
+  <!-- error page -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/</location>
+  </error-page>
 </web-app>

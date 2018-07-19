@@ -9,6 +9,10 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!-- 加载数据库配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config.properties" />
+    </bean>
     <!-- 开启注解模式 -->
     <mvc:annotation-driven />
 
@@ -19,6 +23,15 @@
     <mvc:resources mapping="/css/**" location="/static/css/" />
     <mvc:resources mapping="/images/**" location="/static/images/" />
     <mvc:resources mapping="/layui/**" location="/static/layui/" />
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!-- 拦截所有路径 -->
+            <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/search/**"/>
+            <bean class="cn.captainshen.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 配置thymeleaf -->
     <!-- Thymeleaf 视图解析器 -->
@@ -38,10 +51,16 @@
         <property name="suffix" value=".html" />
     </bean>
 
-    <!-- 加载数据库配置文件 -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:db.properties" />
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>${file_size_limit}</value>
+        </property>
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
     </bean>
+
 
     <!-- 配置数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
@@ -59,7 +78,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 加载mapper配置文件 -->
-        <!--<property name="mapperLocations" value="classpath:mapper/*.xml" />-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>
 
     <!-- 加载所有DAO接口类 -->

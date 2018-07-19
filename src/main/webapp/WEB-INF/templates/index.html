@@ -10,12 +10,14 @@
 <body>
 
 <div class="index-container">
-
     <div class="layui-container">
         <div class="layui-row index-login">
-            <div class="layui-col-md1 layui-col-md-offset12">
-                <a th:href="@{/login}" target="_self">登录</a> /
-                <a th:href="@{/register}" target="_self">注册</a>
+            <div class="layui-col-md2 layui-col-md-offset11 ">
+                <span style="color: white" th:if="${session.loginUser != null}">欢迎您</span>
+                <span style="color: white" th:text="${session.loginUser?.getUsername()}"></span>
+                <a th:if="${session.loginUser == null}" th:href="@{/login}" target="_self">登录</a> /
+                <a th:if="${session.loginUser == null}" th:href="@{/register}" target="_self">注册</a>
+                <a th:if="${session.loginUser != null}"th:href="@{/exit}" target="_self">注销</a>
             </div>
         </div>
         <div class="layui-row index-nav">
@@ -42,12 +44,13 @@
             </div>
         </div>
 
+
         <div class="layui-row index-info">
             <div class="layui-col-md4 layui-col-md-offset4">
                 <h2>Share Space</h2>
                 <p>在线共享平台，群组分享模式，跨平台操作</p>
             </div>
-            <button class="layui-btn layui-bg-red">Find More</button>
+            <a th:href="@{/search}"><button class="layui-btn layui-bg-red"> <i class="layui-icon">&#xe615;</i> 搜索网盘资源</button></a>
         </div>
     </div>
 
