@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,5 +31,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByName(String username) {
         return userDao.selectUser(username,null);
+    }
+
+    @Override
+    public List<User> findLikeUsers(String username) {
+        return userDao.findLikeUsers(username);
+    }
+
+    @Override
+    public List<User> findUsersByGroupId(String groupid) {
+          return userDao.findUsersByGroupId(Integer.valueOf(groupid));
     }
 }

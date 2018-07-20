@@ -4,21 +4,18 @@ import cn.captainshen.entity.Group;
 import cn.captainshen.entity.User;
 import cn.captainshen.service.GroupService;
 import cn.captainshen.service.UserService;
+import org.json.JSONObject;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class GroupController {
@@ -59,12 +56,44 @@ public class GroupController {
 
     }
 
-    @RequestMapping(value = "/addGroupMember",method = {RequestMethod.POST})
-    public String addGroupMember(@RequestParam("group_name") String groupname,@RequestParam("friend_username") String username,HttpSession session){
-            User member = userService.findUserByName(username);
-            Group group = groupService.selectGroup(((User)session.getAttribute("loginUser")).getUserid().toString(),groupname);
-            groupService.addGroupMember(group.getGroupid().toString(),member.getUserid().toString(),username,groupname);
-            return "search";
+
+    @RequestMapping(value = "/addGroupMember",method = {RequestMethod.POST},produces = "application/json; charset=utf-8")
+    @ResponseBody
+    public String addGroupMember(@RequestBody String json,HttpSession session){
+        Group g = null;
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject data = new JSONObject();
+        Map<String,Object> mp = jsonObject.toMap();
+        List<User> inviteList = new ArrayList<User>();
+        for (Map.Entry<String, Object> entry : mp.entrySet()) {
+            if(entry.getKey().equals("group")){
+                User loginUser = (User)session.getAttribute("loginUser");
+                g = groupService.selectGroup(loginUser.getUserid().toString(), (String) entry.getValue());
+                if(g == null){
+                    data.put("msg","邀请失败，请保证您创建了该群组！");
+                    return data.toString();
+                }
+            }
+            else{
+                User member = userService.findUserByName((String) entry.getValue());
+                System.out.println(member);
+                if (member == null) {
+                    data.put("msg","邀请失败，请保证所有被邀请的用户存在！");
+                    return data.toString();
+                }
+                else{
+                    inviteList.add(member);
+                }
+            }
+
+        }
+        for (User user : inviteList) {
+            groupService.addGroupMember(g.getGroupid().toString(),user.getUserid().toString(),user.getUsername(),g.getGroupname());
+        }
+        data.put("msg","邀请成功！");
+        return data.toString();
     }
+
+
 
 }

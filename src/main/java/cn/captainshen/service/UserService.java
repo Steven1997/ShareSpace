@@ -30,9 +30,23 @@ public interface UserService {
     void addUser(User user);
 
     /**
-     * 根据用户名查找用户
+     * 根据用户名精确查找用户
      * @param username
      * @return
      */
     User findUserByName(String username);
+
+    /**
+     * 根据用户名模糊查找用户
+     * @param username
+     * @return
+     */
+    List<User> findLikeUsers(String username);
+
+    /**
+     * 根据群组编号查询该群组的所有成员
+     * @param groupid
+     * @return
+     */
+    List<User> findUsersByGroupId(String groupid);
 }

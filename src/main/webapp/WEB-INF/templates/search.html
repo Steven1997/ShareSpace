@@ -206,7 +206,9 @@
                     <div class="group-mid">
                         <p>我创建的群组</p>
                         <ul>
-                            <li th:each="createGroupList:${session.createGroupList}" th:text="${createGroupList.getGroupname()}"></li>
+                            <a th:each="createGroupList:${session.createGroupList}" th:href="'/findUsersByGroupId/' + ${createGroupList.getGroupid()}">
+                                <li  th:text="${createGroupList.getGroupname()}"></li>
+                            </a>
                         </ul>
                     </div>
                 </div>
@@ -214,9 +216,9 @@
                 <div class="layui-col-md3 layui-col-md-offset1">
                     <div class="group-right">
                         <p>我加入的群组</p>
-                        <ul>
-                            <li th:each="joinGroupList:${session.joinGroupList}" th:text="${joinGroupList.getGroupname()}"></li>
-                        </ul>
+                        <a th:each="joinGroupList:${session.joinGroupList}" th:href="'/findUsersByGroupId/' + ${joinGroupList.getGroupid()}">
+                            <li  th:text="${joinGroupList.getGroupname()}"></li>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -267,20 +269,21 @@
             <hr/>
             <form class="layui-form" action="/addGroupMember" method="POST">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">好友用户名</label>
+                    <label class="layui-form-label">组 名:</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="friend_username" required="" lay-verify="required" placeholder="请输入好友的用户名" autocomplete="off" class="layui-input"/>
+                        <input id = "group" type="text" name="group_name" required=""  lay-verify="required" placeholder="请输入组名" autocomplete="off" class="layui-input"/>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">组 名:</label>
+                    <label class="layui-form-label">好友用户名</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="group_name" required=""  lay-verify="required" placeholder="请输入组名" autocomplete="off" class="layui-input"/>
+                        <input class="layui-input f_username" type="text" name="friend_username" required="" lay-verify="required" placeholder="请输入好友的用户名" autocomplete="off" />
+                        <div class="add-invite"><i class="layui-icon layui-icon-add-1"></i></div>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="form-create-group">邀请</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="form-invite-group">邀请</button>
                     </div>
                 </div>
             </form>
@@ -301,6 +304,16 @@
         if( r != null )
             return unescape(r[2]);
         return null;
+    }
+
+    //功能: 在targetElement之后插入 新节点newElement
+    function insertAfter(newElement, targetElement){
+        var parent = targetElement.parentNode;
+        if(parent.lastChild == targetElement){
+            parent.appendChild(newElement);
+        }else{
+            parent.insertBefore(newElement,targetElement.nextSibling);
+        }
     }
 
     layui.use(['layer','element','jquery','form'], function(){
@@ -364,10 +377,54 @@
             $(".up-files").css("display","none");
         }
 
+        $(".add-invite").click(function(){
+            var div = document.createElement("div");
+            div.setAttribute("class","layui-form-item");
+            var label = document.createElement("label");
+            label.innerText = "好友用户名";
+            label.setAttribute("class","layui-form-label");
+            div.appendChild(label);
+            var div2 = document.createElement("div");
+            div2.setAttribute("class","layui-input-inline");
+            div2.innerHTML = "<input type='text'class='layui-input f_username'required=''lay-verify='required'placeholder='请输入好友用户名'autocomplete='off'/>";
+            div.appendChild(div2);
+            var n = $(".create-group .layui-form .layui-form-item").length -11;
+            insertAfter(div,$(".create-group .layui-form .layui-form-item")[n]);
+        });
+
         var error_msg = $(".error_msg")[0].innerHTML;
         if(error_msg != ""){
             layer.msg(error_msg); //打印报错信息
         }
+
+        //监听提交
+        form.on('submit(form-invite-group)',function(data){
+
+            var n = $(".create-group .f_username").length;
+            var data = {};
+            data['group'] = $("#group").val();
+            for(var i = 0; i < n-1; i++){
+                var val = $(".create-group .f_username")[i].value;
+                data['f_user'+i] = val;
+            }
+            //layer.msg(JSON.stringify(data));
+            console.log(JSON.stringify(data));
+            $.ajax({
+                type:"POST",                      //请求类型
+                url: "/addGroupMember",           //URL
+                contentType: "application/json; charset=utf-8",
+                data:JSON.stringify(data),//{uid:obj.attr("userid")},   //传递的参数
+                dataType:"json",                 //返回的数据类型
+                success:function(data){          //data就是返回的json类型的数据
+                    layer.msg(data['msg']);
+                },
+                error:function(data){
+                    layer.msg(data['msg']);
+                }
+            });
+
+            return false;
+        })
 
         //监听提交
         form.on('submit(form-create-group)', function(data){
@@ -383,5 +440,6 @@
 
     //]]>
 </script>
+
 </body>
 </html>

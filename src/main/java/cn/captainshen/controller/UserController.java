@@ -1,21 +1,27 @@
 package cn.captainshen.controller;
 
 import cn.captainshen.entity.User;
-import cn.captainshen.service.impl.UserServiceImpl;
+import cn.captainshen.service.GroupService;
+import cn.captainshen.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 
 @Controller
 @SessionAttributes(value = {"loginUser"})
 public class UserController {
     @Resource
-    private UserServiceImpl userService;
+    private UserService userService;
+
+    @Resource
+    private GroupService groupService;
 
     /**
      * 用户登录
@@ -62,5 +68,32 @@ public class UserController {
         session.setAttribute("loginUser", user);
         model.addAttribute("error_msg","恭喜您，注册成功！");
         return "index";
+    }
+
+    /**
+     * 根据用户名模糊查询
+     * @param username
+     * @param redirectAttributes
+     * @return
+     */
+    @RequestMapping(value = "/findLikeUsers", method = {RequestMethod.POST})
+    public String findLikeUsers(@RequestParam("username") String username, RedirectAttributes redirectAttributes){
+        List<User> userList = userService.findLikeUsers(username);
+        redirectAttributes.addFlashAttribute("userList",userList);
+        return "redirect:/search?op=2";
+    }
+
+    /**
+     * 根据群组编号查询该组的所有成员
+     * @param groupid
+     * @return
+     */
+    @RequestMapping(value = "/findUsersByGroupId/{groupid}",method = {RequestMethod.GET})
+    public String findUsersByGroupId(@PathVariable("groupid") String groupid,Model model){
+        List<User> memberList = userService.findUsersByGroupId(groupid);
+        String groupname = groupService.selectGroupById(groupid).getGroupname();
+        model.addAttribute("memberList",memberList);
+        model.addAttribute("groupname",groupname);
+        return "display";
     }
 }

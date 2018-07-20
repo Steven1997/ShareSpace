@@ -64,4 +64,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
 
+    @Override
+    public Group selectGroupById(String groupid) {
+        return groupDao.selectGroupById(Integer.valueOf(groupid));
+    }
 }

@@ -14,5 +14,9 @@ public interface UserDao {
 
     void addUser(User user);
 
-    List<Integer> findGroupIdsByUserId(int userId);
+    List<Integer> findGroupIdsByUserId(Integer userId);
+
+    List<User> findUsersByGroupId(Integer groupid);
+
+    List<User> findLikeUsers(String username);
 }

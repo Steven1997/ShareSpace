@@ -3,6 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.captainshen.dao.UserDao">
+
+    <resultMap id="User" type="cn.captainshen.entity.User">
+        <id column="userid" property="userid"></id>
+        <result column="username" property="username"></result>
+        <result column="userpwd" property="userpwd"></result>
+        <result column="usersex" property="usersex"></result>
+        <result column="grade" property="grade"></result>
+        <result column="userimage" property="userimage"></result>
+    </resultMap>
+
     <select id="selectUser" resultType="cn.captainshen.entity.User">
         SELECT * FROM suser WHERE username = #{username}
         <if test="userpwd != null">
@@ -20,5 +30,13 @@
 
     <select id="findGroupIdsByUserId" resultType="java.lang.Integer">
         SELECT groupid FROM sguser WHERE userid = #{userId}
+    </select>
+
+    <select id="findUsersByGroupId" parameterType="java.lang.Integer" resultMap="User">
+        SELECT * FROM sguser WHERE groupid = #{groupid}
+    </select>
+
+    <select id="findLikeUsers" parameterType="java.lang.String" resultMap="User">
+        SELECT * FROM suser WHERE username LIKE CONCAT('%',#{username},'%')
     </select>
 </mapper>
