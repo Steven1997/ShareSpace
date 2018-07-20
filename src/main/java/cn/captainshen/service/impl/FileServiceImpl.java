@@ -142,4 +142,18 @@ public class FileServiceImpl implements FileService {
         fileDao.deleteFileByFileId(fileId);
         file.delete();
     }
+
+    @Override
+    public void addDownloadRecord(int userId, int fileId) {
+        LocalFile file = fileDao.findFileByFileId(fileId);
+        User user = userDao.findUserByUserId(userId);
+        /**
+         * 这里懒得再写一个下载关系实体类
+         * LocalFile类中的userId在这里表示下载者的Id
+         */
+        file.setUserName(user.getUsername());
+        file.setUserid(userId);
+        file.setDownloadDate(new Date(System.currentTimeMillis()));
+        fileDao.addDownloadRecord(file);
+    }
 }

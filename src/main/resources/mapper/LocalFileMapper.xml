@@ -16,6 +16,7 @@
         <result column="username" property="userName" />
         <result column="filedate" property="fileDate" />
         <result column="filetype" property="fileType" />
+        <result column="downloaddate" property="downloadDate" />
     </resultMap>
 
     <insert id="addFile" parameterType="cn.captainshen.entity.LocalFile">
@@ -55,4 +56,9 @@
     <delete id="deleteFileByFileId">
         DELETE FROM sfile WHERE fileid = #{fileId}
     </delete>
+    
+    <insert id="addDownloadRecord" parameterType="cn.captainshen.entity.LocalFile">
+        INSERT IGNORE INTO sdfile(fileid, userid, filename, username, downloaddate)
+        VALUES(#{fileid}, #{userid}, #{fileName}, #{userName}, #{downloadDate})
+    </insert>
 </mapper>

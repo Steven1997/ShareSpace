@@ -30,9 +30,4 @@
     <select id="findAllJoinGroup" parameterType="java.lang.Integer" resultMap="Group">
         SELECT * FROM sguser WHERE userid = #{userid}
     </select>
-
-
-
-
-
 </mapper>

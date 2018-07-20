@@ -93,4 +93,11 @@ public interface FileService {
      * @param fileId
      */
     void deleteFileByFileId(int fileId);
+
+    /**
+     * 添加一条下载记录
+     * @param userId    下载者id
+     * @param fileId    文件id
+     */
+    void addDownloadRecord(int userId, int fileId);
 }

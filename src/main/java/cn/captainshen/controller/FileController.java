@@ -75,7 +75,14 @@ public class FileController {
         }
         //TODO 文件下载权限校验(用户组文件,公开文件,私密文件)
         ResponseEntity<byte[]> res = fileUtil.buildResponseEntity(downloadFile, fileId);
-        return res;
+        if(res != null){
+            // 下载信息入库
+            fileService.addDownloadRecord(user.getUserid(), fileId);
+            System.out.println(user.getUserid());
+            //TODO 积分处理
+            return res;
+        }
+        return fileUtil.buildErrorResponseEntity();
     }
 
     @PostMapping(value = {"/searchPublicFile"})

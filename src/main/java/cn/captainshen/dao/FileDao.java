@@ -1,7 +1,6 @@
 package cn.captainshen.dao;
 
 import cn.captainshen.entity.LocalFile;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -70,4 +69,10 @@ public interface FileDao {
      * @param fileId
      */
     void deleteFileByFileId(int fileId);
+
+    /**
+     * 添加下载记录
+     * @param file
+     */
+    void addDownloadRecord(LocalFile file);
 }

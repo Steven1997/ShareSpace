@@ -157,11 +157,13 @@
                                 <col width="220"/>
                                 <col width="220"/>
                                 <col width="220"/>
+                                <col width="220"/>
                             </colgroup>
                             <thead>
                             <tr>
-                                <th>文件名称</th>
-                                <th>文件所有者</th>
+                                <th>文件名</th>
+                                <th>上传者</th>
+                                <th>下载日期</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
@@ -169,7 +171,8 @@
                             <tr  th:each="file,fileStat : ${ownDownloadedFileList}" >
                                 <td th:text="${file.getFileName()}"></td>
                                 <td th:text="${file.getUserName()}"></td>
-                                <td><button class="layui-btn layui-btn-normal" id="redownload">重新下载</button></td>
+                                <td th:text="${#dates.format(file.getDownloadDate(), 'yyyy-MM-dd')}"></td>
+                                <td><a th:href="@{/download(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="redownload">重新下载</button></a></td>
                             </tr>
                             </tbody>
                         </table>

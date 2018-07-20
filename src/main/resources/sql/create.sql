@@ -45,9 +45,10 @@ CREATE TABLE `sfile`(
   `filecheck` INT(1) NOT NULL DEFAULT 0,
   `filestate` INT(1) NOT NULL DEFAULT 0,
   `downloadnum` INT(10) NOT NULL DEFAULT 0,
-  `userid` INT(10) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE ,
+  `userid` INT(10),
   `filedate` DATE NOT NULL ,
-  `filetype` VARCHAR(64) NOT NULL DEFAULT '未知类型'
+  `filetype` VARCHAR(64) NOT NULL DEFAULT '未知类型',
+   FOREIGN KEY(userid) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 
@@ -60,7 +61,8 @@ CREATE TABLE `sgroup`(
   `grouppwd` VARCHAR(128) NOT NULL ,
   `groupname` VARCHAR(256) NOT NULL ,
   `groupdesc` VARCHAR(256) NOT NULL,
-  `userid` INT(10) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE
+  `userid` INT(10),
+   FOREIGN KEY(userid)  REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- -------------------------------
@@ -69,10 +71,13 @@ CREATE TABLE `sgroup`(
 DROP TABLE IF EXISTS `sguser`;
 CREATE TABLE `sguser`(
   `guid` INT(10) PRIMARY KEY AUTO_INCREMENT,
-  `groupid` INT(10) REFERENCES sgroup(groupid) ON DELETE CASCADE ON UPDATE CASCADE ,
-  `userid` INT(10) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE,
+  `groupid` INT(10) ,
+  `userid` INT(10),
   `username` VARCHAR(128) ,
-  `groupname` VARCHAR(128)
+  `groupname` VARCHAR(128),
+   FOREIGN KEY(groupid) REFERENCES sgroup(groupid) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY(userid)  REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE
+
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- -------------------------------
@@ -81,10 +86,12 @@ CREATE TABLE `sguser`(
 DROP TABLE IF EXISTS `sgfile`;
 CREATE TABLE `sgfile`(
   `sgid` INT(10) PRIMARY KEY AUTO_INCREMENT,
-  `groupid` INT(10) REFERENCES sgroup(groupid) ON DELETE CASCADE ON UPDATE CASCADE ,
-  `fileid` INT(10) REFERENCES sfile(fileid) ON DELETE CASCADE ON UPDATE CASCADE,
+  `groupid` INT(10),
+  `fileid` INT(10),
   `groupname` VARCHAR(128) ,
-  `filename` VARCHAR(128)
+  `filename` VARCHAR(128),
+   FOREIGN KEY(groupid) REFERENCES sgroup(groupid) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY(fileid)  REFERENCES sfile(fileid) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- -------------------------------------
@@ -93,21 +100,24 @@ CREATE TABLE `sgfile`(
 DROP TABLE IF EXISTS `sdfile`;
 CREATE TABLE `sdfile`(
   `sdid` INT(10) PRIMARY KEY AUTO_INCREMENT,
-  `fileid` INT(10) REFERENCES sfile(fileid) ON DELETE CASCADE ON UPDATE CASCADE ,
-  `userid` INT(10) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE,
+  `fileid` INT(10),
+  `userid` INT(10),
   `filename` VARCHAR(128),
-  `usernmae` VARCHAR(128)
+  `username` VARCHAR(128),
+   FOREIGN KEY(fileid) REFERENCES sfile(fileid) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY(userid) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE,
+  `downloaddate` DATE
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 -- -------------------------------
 -- insert administrators
 -- -------------------------------
-INSERT INTO sadmin(adminname, adminpwd) VALUES("admin", "admin");
+-- INSERT INTO sadmin(adminname, adminpwd) VALUES("admin", "admin");
 
 -- -------------------------------
 -- insert users
 -- -------------------------------
-INSERT INTO suser(username, userpwd, usersex, grade) VALUES("user1", "1", "男", 1000);
+-- INSERT INTO suser(username, userpwd, usersex, grade) VALUES("user1", "1", "男", 1000);
 -- INSERT INTO suser(username, userpwd, usersex, grade) VALUES("user2", "1", "男", 1000);
 -- INSERT INTO suser(username, userpwd, usersex, grade) VALUES("user3", "1", "男", 1000);
 
