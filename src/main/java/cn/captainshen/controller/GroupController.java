@@ -3,6 +3,7 @@ package cn.captainshen.controller;
 import cn.captainshen.entity.Group;
 import cn.captainshen.entity.User;
 import cn.captainshen.service.GroupService;
+import cn.captainshen.service.UserService;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class GroupController {
     @Resource
     GroupService groupService;
 
+    @Resource
+    UserService userService;
     /**
      * 创建群组
      *
@@ -37,13 +40,14 @@ public class GroupController {
      */
     @RequestMapping(value = "/doCreateGroup", method = {RequestMethod.POST})
     public String doCreateGroup(@RequestParam("userid") String userid, @RequestParam("group_name") String groupname,
-                                @RequestParam("pwd") String grouppwd, @RequestParam("desc") String groupdesc, RedirectAttributes redirectAttributes, HttpSession httpSession) {
-        Group query = groupService.checkGroup(userid, groupname);
+                                @RequestParam("pwd") String grouppwd, @RequestParam("desc") String groupdesc,
+                                RedirectAttributes redirectAttributes, HttpSession httpSession) {
+        Group query = groupService.selectGroup(userid, groupname);
 
         if (query == null) {
             groupService.createGroup(userid, groupname, grouppwd, groupdesc);
             User user = (User) httpSession.getAttribute("loginUser");
-            Integer groupnum = groupService.selectGroupId(userid, groupname);
+            Integer groupnum = groupService.selectGroup(userid,groupname).getGroupid();
             groupService.addGroupMember(groupnum.toString(), user.getUserid().toString(), user.getUsername(), groupname);
             redirectAttributes.addFlashAttribute("error_msg", "群组创建成功！");
             return "redirect:/search?op=2";
@@ -53,6 +57,14 @@ public class GroupController {
         }
 
 
+    }
+
+    @RequestMapping(value = "/addGroupMember",method = {RequestMethod.POST})
+    public String addGroupMember(@RequestParam("group_name") String groupname,@RequestParam("friend_username") String username,HttpSession session){
+            User member = userService.findUserByName(username);
+            Group group = groupService.selectGroup(((User)session.getAttribute("loginUser")).getUserid().toString(),groupname);
+            groupService.addGroupMember(group.getGroupid().toString(),member.getUserid().toString(),username,groupname);
+            return "search";
     }
 
 }

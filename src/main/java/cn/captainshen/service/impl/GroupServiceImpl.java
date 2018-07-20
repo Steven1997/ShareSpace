@@ -37,20 +37,11 @@ public class GroupServiceImpl implements GroupService {
      * @return
      */
     @Override
-    public Group checkGroup(String userid, String groupname) {
-        return groupDao.checkGroup(Integer.valueOf(userid),groupname);
+    public Group selectGroup(String userid, String groupname) {
+        return groupDao.selectGroup(Integer.valueOf(userid),groupname);
     }
 
-    /**
-     * 根据用户编号和群组名查询群组编号
-     * @param userid
-     * @param groupname
-     * @return
-     */
-    @Override
-    public Integer selectGroupId(String userid, String groupname) {
-        return groupDao.selectGroupId(Integer.valueOf(userid),groupname);
-    }
+
 
     /**
      * 查询某用户创建的所有群组

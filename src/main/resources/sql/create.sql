@@ -27,7 +27,7 @@ CREATE TABLE `suser` (
   `userid` INT(10) PRIMARY KEY AUTO_INCREMENT,
   `username` VARCHAR(20) NOT NULL UNIQUE,
   `userpwd` VARCHAR(20) NOT NULL ,
-  `usersex` VARCHAR(5) NOT NULL DEFAULT "男",
+  `usersex` VARCHAR(5) NOT NULL DEFAULT '男',
   `grade` INT(10) NOT NULL DEFAULT 0,
   `userimage` VARCHAR(50)
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
@@ -47,7 +47,7 @@ CREATE TABLE `sfile`(
   `downloadnum` INT(10) NOT NULL DEFAULT 0,
   `userid` INT(10) REFERENCES suser(userid) ON DELETE CASCADE ON UPDATE CASCADE ,
   `filedate` DATE NOT NULL ,
-  `filetype` VARCHAR(64) NOT NULL DEFAULT "未知类型"
+  `filetype` VARCHAR(64) NOT NULL DEFAULT '未知类型'
 )ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci;
 
 

@@ -4,7 +4,10 @@
 
 <mapper namespace="cn.captainshen.dao.UserDao">
     <select id="selectUser" resultType="cn.captainshen.entity.User">
-        SELECT * FROM suser WHERE username = #{username} AND userpwd = #{userpwd}
+        SELECT * FROM suser WHERE username = #{username}
+        <if test="userpwd != null">
+            AND userpwd = #{userpwd}
+        </if>
     </select>
 
     <select id="checkUsername" resultType="cn.captainshen.entity.User">
