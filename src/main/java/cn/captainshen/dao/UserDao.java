@@ -12,8 +12,6 @@ public interface UserDao {
 
     User selectUser(@Param("username") String username,@Param("userpwd") String userpwd);
 
-    User checkUsername(String username);
-
     void addUser(User user);
 
     List<Integer> findGroupIdsByUserId(int userId);

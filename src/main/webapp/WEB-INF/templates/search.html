@@ -196,6 +196,9 @@
                         <div class="group-create">
                             <a th:href="@{/search(op=2,ct=1)}"><button class="layui-btn">创建群组</button></a>
                         </div>
+                        <div class="group-invite">
+                            <a th:href="@{/search(op=2,invite=1)}"><button class="layui-btn">邀请好友</button></a>
+                        </div>
                     </div>
                 </div>
 
@@ -258,11 +261,38 @@
             </form>
         </div>
     </div>
+    <div class="group-space-invite-content">
+        <div class="create-group">
+            <h2>邀请好友</h2>
+            <hr/>
+            <form class="layui-form" action="/addGroupMember" method="POST">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">好友用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="friend_username" required="" lay-verify="required" placeholder="请输入好友的用户名" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">组 名:</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="group_name" required=""  lay-verify="required" placeholder="请输入组名" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="form-create-group">邀请</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 <div class="error_msg" th:text="${error_msg}" style="display:none"></div>
 
 <script>
+    //<![CDATA[
     //获取url参数的值,比如GetQueryString("op") 返回 op参数值
     function GetQueryString(name)
     {
@@ -283,6 +313,7 @@
         var ct = GetQueryString("ct");
         var up = GetQueryString("up");
         var down = GetQueryString("down");
+        var invite = GetQueryString("invite");
         if(op == null || op == 0){
             var share_space_op = $(".share-space-op").attr("class")+" layui-this";
             var share_space_class = $(".share-space").attr("class")+" layui-show";
@@ -307,6 +338,11 @@
         }else{
             var group_space_content = $(".group-space-content")[0].innerHTML;
             group_space.innerHTML = group_space_content;
+        }
+
+        if(invite == 1){
+            var group_space_invite_content = $(".group-space-invite-content")[0].innerHTML;
+            group_space.innerHTML = group_space_invite_content;
         }
 
         if(up == 1 || up == null){
@@ -344,6 +380,8 @@
         });
 
     });
+
+    //]]>
 </script>
 </body>
 </html>

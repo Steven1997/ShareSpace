@@ -19,7 +19,7 @@
         INSERT INTO sguser(groupid,userid,username,groupname) VALUES(#{groupid},#{userid},#{username},#{groupname})
     </insert>
 
-    <select id="checkGroup" resultType="cn.captainshen.entity.Group">
+    <select id="selectGroup" resultType="cn.captainshen.entity.Group">
         SELECT * FROM sgroup WHERE userid = #{userid} AND groupname = #{groupname}
     </select>
 
@@ -31,9 +31,6 @@
         SELECT * FROM sguser WHERE userid = #{userid}
     </select>
 
-    <select id="selectGroupId"  resultType="java.lang.Integer">
-        SELECT groupid FROM sgroup WHERE userid = #{userid} AND groupname = #{groupname}
-    </select>
 
 
 

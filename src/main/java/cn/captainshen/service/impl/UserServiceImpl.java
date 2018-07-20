@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkUsername(String username) {
-        return userDao.checkUsername(username) != null;
+        return userDao.selectUser(username,null) != null;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByName(String username) {
-        return userDao.checkUsername(username);
+        return userDao.selectUser(username,null);
     }
 }
