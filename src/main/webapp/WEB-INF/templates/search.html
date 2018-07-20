@@ -31,7 +31,7 @@
                 <p>Share Space</p>
             </div>
 
-            <form class="layui-form" action="">
+            <form class="layui-form" action="/searchPublicFile" method="post">
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
                         <input type="text" class="layui-input" name="keywords" required="" lay-verify="required" placeholder="Enter keywords here" autocomplete="off"/>
@@ -44,20 +44,25 @@
                     <col width="100"/>
                     <col width="100"/>
                     <col width="100"/>
+                    <col width="100"/>
                 </colgroup>
                 <thead>
                     <tr>
                         <th>文件名</th>
+                        <th>上传者</th>
                         <th>文件描述</th>
-                        <th>operation</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!--<tr th:each="file,iterStat : ${files}">
-                        <td th:text="${file.name}">文件名</td>
-                        <td th:text="${file.description}">文件描述</td>
-                        <td><a th:href="@{/file.filepath}"></a></td>
-                    </tr>-->
+                <tr  th:each="file,fileStat : ${searchResult}" >
+                    <td th:text="${file.getFileName()}"></td>
+                    <td th:text="${file.getUserName()}"></td>
+                    <td th:text="${file.getFileDesc()}"></td>
+                    <td>
+                        <a th:href="@{/download(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="download_file">下载</button></a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
@@ -133,16 +138,16 @@
                                 <!-- 文件审核状态 -->
                                 <td th:if="${file.getFileCheck() == 0}" th:text="待审核"></td>
                                 <td th:if="${file.getFileCheck() == 1}" th:text="审核通过"></td>
-                                <td th:if="${file.getFileCheck() == 1}" th:text="审核不通过"></td>
+                                <td th:if="${file.getFileCheck() == 2}" th:text="审核不通过"></td>
 
                                 <td>
-                                    <button class="layui-btn layui-btn-normal" id="update_file">修改</button>
+                                    <a th:href="@{/update(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="update_file">修改</button></a>
                                 </td>
                                 <td>
                                     <a th:href="@{/download(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="download_file">下载</button></a>
                                 </td>
                                 <td>
-                                    <button class="layui-btn layui-btn-normal" id="delete_file">删除</button>
+                                    <a th:href="@{/delete(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="delete_file">删除</button></a>
                                 </td>
                             </tr>
                             </tbody>

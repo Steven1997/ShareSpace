@@ -9,4 +9,8 @@ public class AdminController {
     public String admin(){
         return "/admin";
     }
+    @GetMapping(value = {"/error"})
+    public  String error(){
+        return "error";
+    }
 }

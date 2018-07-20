@@ -42,4 +42,17 @@
     <select id="findDownloadedFileByUserId" resultMap="fileMap">
         SELECT * FROM sdfile WHERE userid = #{userId}
     </select>
+
+    <select id="findPublicFilesByFileName" resultMap="fileMap">
+        SELECT * FROM sfile WHERE filecheck = 1 AND filestate = 2 AND filename LIKE concat('%', #{fileName}, '%')
+    </select>
+
+    <update id="updateFileInfo">
+        UPDATE sfile SET filestate = #{param3}, filedesc = #{param2}
+        WHERE fileId = #{param1}
+    </update>
+
+    <delete id="deleteFileByFileId">
+        DELETE FROM sfile WHERE fileid = #{fileId}
+    </delete>
 </mapper>

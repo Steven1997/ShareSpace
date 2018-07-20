@@ -14,6 +14,8 @@ public interface UserDao {
 
     User checkUsername(String username);
 
+    User findUserByUserId(int userId);
+
     void addUser(User user);
 
     List<Integer> findGroupIdsByUserId(int userId);

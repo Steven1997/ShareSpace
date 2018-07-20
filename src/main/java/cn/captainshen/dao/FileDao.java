@@ -49,4 +49,25 @@ public interface FileDao {
      * @return
      */
     List<LocalFile> findDownloadedFileByUserId(int userId);
+
+    /**
+     * 模糊搜索公开文件
+     * @param fileName
+     * @return
+     */
+    List<LocalFile> findPublicFilesByFileName(String fileName);
+
+    /**
+     * 修改文件信息
+     * @param fileId
+     * @param fileDesc
+     * @param fileState
+     */
+    void updateFileInfo(int fileId, String fileDesc, int fileState);
+
+    /**
+     * 删除文件
+     * @param fileId
+     */
+    void deleteFileByFileId(int fileId);
 }
