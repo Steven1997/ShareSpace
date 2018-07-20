@@ -24,6 +24,10 @@
         SELECT * FROM suser WHERE username = #{username}
     </select>
 
+    <select id="findUserByUserId" resultType="cn.captainshen.entity.User">
+        SELECT * FROM suser WHERE userid = #{userId}
+    </select>
+
     <insert id="addUser">
         INSERT INTO suser(username,userpwd,usersex,grade) VALUES(#{username},#{userpwd},#{usersex},#{grade})
     </insert>

@@ -1,6 +1,7 @@
 package cn.captainshen.service.impl;
 
 import cn.captainshen.dao.FileDao;
+import cn.captainshen.dao.UserDao;
 import cn.captainshen.entity.LocalFile;
 import cn.captainshen.entity.User;
 import cn.captainshen.enums.FileUploadStatusEnum;
@@ -22,6 +23,9 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private FileDao fileDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public FileUploadStatusEnum uploadFile(User user, MultipartFile multipartFile,
@@ -97,7 +101,59 @@ public class FileServiceImpl implements FileService {
     public File findRealFileByFileId(int fileId) {
         LocalFile localFile = fileDao.findFileByFileId(fileId);
         String filePath = localFile.getFilePath();
-        System.out.println(filePath);
         return new File(filePath);
+    }
+
+    @Override
+    public List<LocalFile> findPublicFilesByFileName(String fileName) {
+        // 替换% + 预编译 防止SQL注入
+        fileName = fileName.replaceAll("%", "\\\\%");
+        System.out.println(fileName);
+        List<LocalFile> res =  fileDao.findPublicFilesByFileName(fileName);
+        for(int i = 0; i < res.size(); ++i){
+            LocalFile tmp = res.get(i);
+            String username = userDao.findUserByUserId(tmp.getUserid()).getUsername();
+            res.get(i).setUserName(username);
+        }
+        return res;
+    }
+
+    @Override
+    public LocalFile findFileByFileId(int fileId) {
+        return fileDao.findFileByFileId(fileId);
+    }
+
+    @Override
+    public void updateFileInfo(int fileId, String fileDesc, String fileState) {
+        int state;
+        switch (fileState){
+            case "private" : state = 0; break;
+            case "group"   : state = 1; break;
+            case "public"  : state = 2; break;
+            //  非法参数
+            default: return;
+        }
+        fileDao.updateFileInfo(fileId, fileDesc, state);
+    }
+
+    @Override
+    public void deleteFileByFileId(int fileId) {
+        File file = this.findRealFileByFileId(fileId);
+        fileDao.deleteFileByFileId(fileId);
+        file.delete();
+    }
+
+    @Override
+    public void addDownloadRecord(int userId, int fileId) {
+        LocalFile file = fileDao.findFileByFileId(fileId);
+        User user = userDao.findUserByUserId(userId);
+        /**
+         * 这里懒得再写一个下载关系实体类
+         * LocalFile类中的userId在这里表示下载者的Id
+         */
+        file.setUserName(user.getUsername());
+        file.setUserid(userId);
+        file.setDownloadDate(new Date(System.currentTimeMillis()));
+        fileDao.addDownloadRecord(file);
     }
 }

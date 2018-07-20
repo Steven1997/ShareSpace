@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Update - Share Space</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <script th:src="@{/layui/layui.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/upload.css}"/>
+</head>
+<body>
+
+<div class="upload-space">
+    <h2>文件信息修改</h2>
+    <hr/>
+
+    <form class="layui-form" action="/doUpdate" method="POST">
+        <input type="hidden" name="fileId" th:value="${updatingFile.getFileid()}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-inline">
+
+                <select name="state" lay-verify="required" th:if="${updatingFile.getFileState() == 0}">
+                    <option value="private">私密</option>
+                    <option value="public">公开</option>
+                    <option value="group">组用户可见</option>
+                </select>
+                <select name="state" lay-verify="required" th:if="${updatingFile.getFileState() == 1}">
+                    <option value="group">组用户可见</option>
+                    <option value="private">私密</option>
+                    <option value="public">公开</option>
+                </select>
+                <select name="state" lay-verify="required" th:if="${updatingFile.getFileState() == 2}">
+                    <option value="public">公开</option>
+                    <option value="group">组用户可见</option>
+                    <option value="private">私密</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">文件描述</label>
+            <div class="layui-input-block">
+                <textarea name="description" placeholder="请输入文件描述" class="layui-textarea" th:text="${updatingFile.getFileDesc()}"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit" lay-filter="form-upload-file">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    layui.use(['form','jquery'], function(){
+        var form = layui.form,
+            $ = layui.$;
+
+        form.on('submit(form-upload-file',function(data){
+            layer.msg("修改成功");
+            return false;
+        });
+    });
+</script>
+
+</body>
+</html>

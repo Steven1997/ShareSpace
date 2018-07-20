@@ -27,6 +27,16 @@ public class LocalFile {
     Date fileDate;
     // 文件类型
     String fileType;
+    // 文件下载日期
+    Date downloadDate;
+
+    public Date getDownloadDate() {
+        return downloadDate;
+    }
+
+    public void setDownloadDate(Date downloadDate) {
+        this.downloadDate = downloadDate;
+    }
 
     public int getFileid() {
         return fileid;

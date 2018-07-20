@@ -3,6 +3,7 @@ package cn.captainshen.service;
 import cn.captainshen.entity.LocalFile;
 import cn.captainshen.entity.User;
 import cn.captainshen.enums.FileUploadStatusEnum;
+import org.springframework.cglib.core.Local;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -64,4 +65,39 @@ public interface FileService {
      * @return true 可下载 false 不可下载
      */
     Boolean checkDownloadable(User user, LocalFile localFile);
+
+    /**
+     * 根据文件名关键字模糊搜索共享、已审核文件
+     * @param fileName
+     * @return
+     */
+    List<LocalFile> findPublicFilesByFileName(String fileName);
+
+    /**
+     * 根据文件Id查询文件
+     * @param fileId
+     * @return
+     */
+    LocalFile findFileByFileId(int fileId);
+
+    /**
+     * 用户修改文件信息
+     * @param fileId
+     * @param fileDesc
+     * @param fileState
+     */
+    void updateFileInfo(int fileId, String fileDesc, String fileState);
+
+    /**
+     * 删除文件
+     * @param fileId
+     */
+    void deleteFileByFileId(int fileId);
+
+    /**
+     * 添加一条下载记录
+     * @param userId    下载者id
+     * @param fileId    文件id
+     */
+    void addDownloadRecord(int userId, int fileId);
 }

@@ -30,6 +30,7 @@
             <!--<mvc:mapping path="/admin/**"/>-->
             <mvc:mapping path="/search/**"/>
             <mvc:mapping path="/upload/**" />
+            <mvc:mapping path="/update/**" />
             <!--<mvc:mapping path="/download/**" />-->
             <bean class="cn.captainshen.interceptor.LoginInterceptor"/>
         </mvc:interceptor>

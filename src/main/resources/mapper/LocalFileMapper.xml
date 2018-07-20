@@ -16,6 +16,7 @@
         <result column="username" property="userName" />
         <result column="filedate" property="fileDate" />
         <result column="filetype" property="fileType" />
+        <result column="downloaddate" property="downloadDate" />
     </resultMap>
 
     <insert id="addFile" parameterType="cn.captainshen.entity.LocalFile">
@@ -42,4 +43,22 @@
     <select id="findDownloadedFileByUserId" resultMap="fileMap">
         SELECT * FROM sdfile WHERE userid = #{userId}
     </select>
+
+    <select id="findPublicFilesByFileName" resultMap="fileMap">
+        SELECT * FROM sfile WHERE filecheck = 1 AND filestate = 2 AND filename LIKE concat('%', #{fileName}, '%')
+    </select>
+
+    <update id="updateFileInfo">
+        UPDATE sfile SET filestate = #{param3}, filedesc = #{param2}
+        WHERE fileId = #{param1}
+    </update>
+
+    <delete id="deleteFileByFileId">
+        DELETE FROM sfile WHERE fileid = #{fileId}
+    </delete>
+    
+    <insert id="addDownloadRecord" parameterType="cn.captainshen.entity.LocalFile">
+        INSERT IGNORE INTO sdfile(fileid, userid, filename, username, downloaddate)
+        VALUES(#{fileid}, #{userid}, #{fileName}, #{userName}, #{downloadDate})
+    </insert>
 </mapper>

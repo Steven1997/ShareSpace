@@ -65,7 +65,6 @@ public class IndexController {
         return "search";
     }
 
-
     @RequestMapping(value = "/admin",method = {RequestMethod.GET})
     public String admin(){
         return "admin";
