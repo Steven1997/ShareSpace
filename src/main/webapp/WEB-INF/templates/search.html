@@ -277,18 +277,19 @@
             <hr/>
             <form class="layui-form" action="/addGroupMember" method="POST">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">组 名:</label>
-                    <div class="layui-input-inline">
-                        <input id = "group" type="text" name="group_name" required=""  lay-verify="required" placeholder="请输入组名" autocomplete="off" class="layui-input"/>
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label class="layui-form-label">好友用户名</label>
                     <div class="layui-input-inline">
                         <input class="layui-input f_username" type="text" name="friend_username" required="" lay-verify="required" placeholder="请输入好友的用户名" autocomplete="off" />
                         <div class="add-invite"><i class="layui-icon layui-icon-add-1"></i></div>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">组 名:</label>
+                    <div class="layui-input-inline">
+                        <input id = "group" type="text" name="group_name" required=""  lay-verify="required" placeholder="请输入组名" autocomplete="off" class="layui-input"/>
+                    </div>
+                </div>
+
                 <div class="layui-form-item">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-submit="" lay-filter="form-invite-group">邀请</button>

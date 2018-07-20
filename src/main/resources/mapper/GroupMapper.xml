@@ -35,5 +35,11 @@
         SELECT * FROM sgroup WHERE groupid = #{groupid}
     </select>
 
+    <select id="isInGroup" resultType="java.lang.Integer">
+        SELECT guid FROM sguser WHERE userid = #{userid} AND groupid = #{groupid}
+    </select>
+
+
+
 
 </mapper>

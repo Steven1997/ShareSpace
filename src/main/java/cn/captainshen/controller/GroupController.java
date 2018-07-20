@@ -65,23 +65,25 @@ public class GroupController {
         JSONObject data = new JSONObject();
         Map<String,Object> mp = jsonObject.toMap();
         List<User> inviteList = new ArrayList<User>();
+        User loginUser = (User)session.getAttribute("loginUser");
+        g = groupService.selectGroup(loginUser.getUserid().toString(), (String) mp.get("group"));
+        if(g == null){
+            data.put("msg","邀请失败，请保证您创建了该群组！");
+            return data.toString();
+        }
         for (Map.Entry<String, Object> entry : mp.entrySet()) {
-            if(entry.getKey().equals("group")){
-                User loginUser = (User)session.getAttribute("loginUser");
-                g = groupService.selectGroup(loginUser.getUserid().toString(), (String) entry.getValue());
-                if(g == null){
-                    data.put("msg","邀请失败，请保证您创建了该群组！");
-                    return data.toString();
-                }
-            }
+            if(entry.getKey().equals("group"))
+                continue;
             else{
                 User member = userService.findUserByName((String) entry.getValue());
-                System.out.println(member);
+
                 if (member == null) {
                     data.put("msg","邀请失败，请保证所有被邀请的用户存在！");
                     return data.toString();
-                }
-                else{
+                } else if (groupService.isInGroup(member.getUserid().toString(), g.getGroupid().toString())) {
+                    data.put("msg","邀请失败，邀请了已在群组中的用户！");
+                    return data.toString();
+                } else {
                     inviteList.add(member);
                 }
             }

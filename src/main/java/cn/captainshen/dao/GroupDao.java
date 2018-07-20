@@ -23,4 +23,7 @@ public interface GroupDao {
         public Integer selectGroupId(@Param("userid") Integer userid,@Param("groupname") String groupname);
 
         public Group selectGroupById(Integer groupid);
+
+        public Integer isInGroup(@Param("userid") Integer userid,@Param("groupid") Integer groupid);
+
 }

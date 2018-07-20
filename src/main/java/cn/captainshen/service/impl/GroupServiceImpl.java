@@ -68,4 +68,9 @@ public class GroupServiceImpl implements GroupService {
     public Group selectGroupById(String groupid) {
         return groupDao.selectGroupById(Integer.valueOf(groupid));
     }
+
+    @Override
+    public boolean isInGroup(String userid, String groupid) {
+        return groupDao.isInGroup(Integer.valueOf(userid),Integer.valueOf(groupid)) != null;
+    }
 }

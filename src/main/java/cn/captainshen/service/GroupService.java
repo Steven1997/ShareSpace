@@ -16,4 +16,6 @@ public interface GroupService {
     public List<Group> findAllJoinGroup(String userid);
 
     public Group selectGroupById(String groupid);
+
+    public boolean isInGroup(String userid,String groupid);
 }
