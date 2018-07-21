@@ -10,6 +10,7 @@
 
 <body>
 <div class="layui-container">
+    <!-- 群组成员列表 -->
     <div class="layui-col-md3">
         <h3 style="color: white" align="center" th:text="${groupname} + '群组成员'"></h3>
         <table class="layui-table">
@@ -28,6 +29,44 @@
             </tbody>
         </table>
     </div>
+    <!-- 群组文件列表 -->
+    <div class="layui-col-md8 layui-col-md-offset1">
+        <h3 style="color: white" align="center">群组文件</h3>
+        <table class="layui-table up-files">
+            <colgroup>
+                <col width="150"/>
+                <col width="150"/>
+                <col width="150"/>
+                <col width="150"/>
+                <col width="150"/>
+                <col width="150"/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>文件名称</th>
+                <th>上传日期</th>
+                <th>上传人</th>
+                <th>描述</th>
+                <th>文件权限</th>
+                <th>下载</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:each="file,fileStat : ${groupFileList}" >
+                <td th:text="${file.getFileName()}"></td>
+                <td th:text="${#dates.format(file.getFileDate(), 'yyyy-MM-dd')}"></td>
+                <td th:text="${file.getUserName()}"></td>
+                <td th:text="${file.getFileDesc()}"></td>
+                <!-- 文件权限 -->
+                <td th:if="${file.getFileState() == 0}" th:text="私密"></td>
+                <td th:if="${file.getFileState() == 1}" th:text="组可见"></td>
+                <td th:if="${file.getFileState() == 2}" th:text="公开"></td>
+                <td>
+                    <a th:href="@{/download(fileId=${file.getFileid()})}"><button class="layui-btn layui-btn-normal" id="download_file">下载</button></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
 </div>
 </body>

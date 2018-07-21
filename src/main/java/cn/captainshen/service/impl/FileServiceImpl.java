@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -68,12 +69,8 @@ public class FileServiceImpl implements FileService {
         if(localFile.getUserid() == user.getUserid() || localFile.getFileState() == 2){
             return true;
         }
-        // 同组内的用户文件 可下载
-        Boolean res =false;
-
-        if(true){
-           res = true;
-        }
+        //TODO 同组内的用户文件可下载
+        Boolean res =true;
         return res;
     }
 
@@ -155,5 +152,16 @@ public class FileServiceImpl implements FileService {
         file.setUserid(userId);
         file.setDownloadDate(new Date(System.currentTimeMillis()));
         fileDao.addDownloadRecord(file);
+    }
+
+    @Override
+    public List<LocalFile> findGroupFilesByGroupId(int groupId) {
+       List<LocalFile> res =  fileDao.findGroupFilesByGroupId(groupId);
+       for(int i = 0; i < res.size(); ++i){
+           LocalFile temp = res.get(i);
+           User user = userDao.findUserByUserId(temp.getUserid());
+           res.get(i).setUserName(user.getUsername());
+       }
+       return res;
     }
 }

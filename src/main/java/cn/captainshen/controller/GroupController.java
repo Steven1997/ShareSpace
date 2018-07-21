@@ -1,7 +1,9 @@
 package cn.captainshen.controller;
 
 import cn.captainshen.entity.Group;
+import cn.captainshen.entity.LocalFile;
 import cn.captainshen.entity.User;
+import cn.captainshen.service.FileService;
 import cn.captainshen.service.GroupService;
 import cn.captainshen.service.UserService;
 import org.json.JSONObject;
@@ -24,6 +26,9 @@ public class GroupController {
 
     @Resource
     UserService userService;
+
+    @Resource
+    FileService fileService;
     /**
      * 创建群组
      *
@@ -97,5 +102,35 @@ public class GroupController {
     }
 
 
+    /**
+     * 根据群组编号查询该组的所有成员、文件
+     * @param groupid
+     * @return
+     */
+    @RequestMapping(value = "/groupDetail/{groupid}",method = {RequestMethod.GET})
+    public String findUsersByGroupId(@PathVariable("groupid") String groupid,Model model,
+                                     HttpSession session, RedirectAttributes redirectAttributes){
+        List<User> memberList = userService.findUsersByGroupId(groupid);
+        // 判断查询用户是否在该组中
+        User user = (User)session.getAttribute("loginUser");
+        Boolean checkable = false;
+        for(int i = 0; i < memberList.size(); ++i){
+            if(user.getUserid() == memberList.get(i).getUserid()){
+                checkable = true;
+                break;
+            }
+        }
+        if(!checkable){
+            redirectAttributes.addFlashAttribute("error_msg", "权限不足");
+            return "redirect:/search?op=2";
+        }
+        String groupname = groupService.selectGroupById(groupid).getGroupname();
+        model.addAttribute("memberList",memberList);
+        model.addAttribute("groupname",groupname);
 
+        // 查询该组所有文件
+        List<LocalFile> groupFileList = fileService.findGroupFilesByGroupId(Integer.valueOf(groupid));
+        model.addAttribute("groupFileList", groupFileList);
+        return "display";
+    }
 }

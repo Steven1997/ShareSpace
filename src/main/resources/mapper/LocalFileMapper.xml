@@ -61,4 +61,9 @@
         INSERT IGNORE INTO sdfile(fileid, userid, filename, username, downloaddate)
         VALUES(#{fileid}, #{userid}, #{fileName}, #{userName}, #{downloadDate})
     </insert>
+
+    <select id="findGroupFilesByGroupId" resultMap="fileMap">
+        SELECT * FROM sfile WHERE filecheck = 1 AND filestate > 0 AND
+        userid IN (SELECT userid FROM sguser WHERE groupid = #{groupId})
+    </select>
 </mapper>

@@ -75,4 +75,11 @@ public interface FileDao {
      * @param file
      */
     void addDownloadRecord(LocalFile file);
+
+    /**
+     * 查询用户组文件
+     * @param groupId
+     * @return
+     */
+    List<LocalFile> findGroupFilesByGroupId(int groupId);
 }

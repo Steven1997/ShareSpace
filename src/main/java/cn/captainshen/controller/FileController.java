@@ -68,12 +68,12 @@ public class FileController {
     public ResponseEntity<byte[]> download( @RequestParam("fileId") int fileId,
                                             HttpSession session){
         User user = (User)session.getAttribute("loginUser");
+        LocalFile localFile = fileService.findFileByFileId(fileId);
         File downloadFile = fileService.findRealFileByFileId(fileId);
 
-        if(user == null || downloadFile == null){
+        if(user == null || downloadFile == null || !fileService.checkDownloadable(user, localFile)){
             return fileUtil.buildErrorResponseEntity();
         }
-        //TODO 文件下载权限校验(用户组文件,公开文件,私密文件)
         ResponseEntity<byte[]> res = fileUtil.buildResponseEntity(downloadFile, fileId);
         if(res != null){
             // 下载信息入库
