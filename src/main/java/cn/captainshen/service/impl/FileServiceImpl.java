@@ -48,6 +48,7 @@ public class FileServiceImpl implements FileService {
         file.setFileType(multipartFile.getContentType());
         file.setFileTag("none");
         file.setUserid(user.getUserid());
+        file.setFileCheck(1);
         switch (fileState){
             case "private": state = 0; break;
             case "group"  : state = 1; break;
