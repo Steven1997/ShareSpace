@@ -84,23 +84,7 @@ public class UserController {
         return "redirect:/search?op=2";
     }
 
-    /**
-     * 根据群组编号查询该组的所有成员
-     * @param groupid
-     * @return
-     */
-    @RequestMapping(value = "/findUsersByGroupId/{groupid}",method = {RequestMethod.GET})
-    public String findUsersByGroupId(@PathVariable("groupid") String groupid,Model model,HttpSession session){
-        List<User> memberList = userService.findUsersByGroupId(groupid);
-        String groupname = groupService.selectGroupById(groupid).getGroupname();
-        model.addAttribute("memberList",memberList);
-        model.addAttribute("groupname",groupname);
-        model.addAttribute("groupid",groupid);
-        Group group = groupService.selectGroupById(groupid);
-        if(((User)session.getAttribute("loginUser")).getUserid() == group.getUserid())
-            model.addAttribute("right","delete");
-        else
-            model.addAttribute("right","leave");
-        return "display";
-    }
+
+
+
 }

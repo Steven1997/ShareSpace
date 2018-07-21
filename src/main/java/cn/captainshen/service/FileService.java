@@ -100,4 +100,12 @@ public interface FileService {
      * @param fileId    文件id
      */
     void addDownloadRecord(int userId, int fileId);
+
+    /**
+     * 查询用户组可见的文件
+     * 包括公开文件和用户组文件
+     * @param groupId
+     * @return
+     */
+    List<LocalFile> findGroupFilesByGroupId(int groupId);
 }
