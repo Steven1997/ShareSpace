@@ -39,6 +39,10 @@
         SELECT guid FROM sguser WHERE userid = #{userid} AND groupid = #{groupid}
     </select>
 
+    <delete id="deleteMemberOrLeaveGroup">
+        DELETE FROM sguser WHERE userid = #{memberid} AND groupid =  #{groupid}
+    </delete>
+
 
 
 

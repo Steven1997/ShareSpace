@@ -73,4 +73,9 @@ public class GroupServiceImpl implements GroupService {
     public boolean isInGroup(String userid, String groupid) {
         return groupDao.isInGroup(Integer.valueOf(userid),Integer.valueOf(groupid)) != null;
     }
+
+    @Override
+    public void deleteMemberOrLeaveGroup(String groupid, String memberid) {
+        groupDao.deleteMemberOrLeaveGroup(Integer.valueOf(groupid),Integer.valueOf(memberid));
+    }
 }

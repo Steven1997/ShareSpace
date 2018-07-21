@@ -24,6 +24,7 @@ public class GroupController {
 
     @Resource
     UserService userService;
+
     /**
      * 创建群组
      *
@@ -44,7 +45,7 @@ public class GroupController {
         if (query == null) {
             groupService.createGroup(userid, groupname, grouppwd, groupdesc);
             User user = (User) httpSession.getAttribute("loginUser");
-            Integer groupnum = groupService.selectGroup(userid,groupname).getGroupid();
+            Integer groupnum = groupService.selectGroup(userid, groupname).getGroupid();
             groupService.addGroupMember(groupnum.toString(), user.getUserid().toString(), user.getUsername(), groupname);
             redirectAttributes.addFlashAttribute("error_msg", "群组创建成功！");
             return "redirect:/search?op=2";
@@ -57,31 +58,31 @@ public class GroupController {
     }
 
 
-    @RequestMapping(value = "/addGroupMember",method = {RequestMethod.POST},produces = "application/json; charset=utf-8")
+    @RequestMapping(value = "/addGroupMember", method = {RequestMethod.POST}, produces = "application/json; charset=utf-8")
     @ResponseBody
-    public String addGroupMember(@RequestBody String json,HttpSession session){
+    public String addGroupMember(@RequestBody String json, HttpSession session) {
         Group g = null;
         JSONObject jsonObject = new JSONObject(json);
         JSONObject data = new JSONObject();
-        Map<String,Object> mp = jsonObject.toMap();
+        Map<String, Object> mp = jsonObject.toMap();
         List<User> inviteList = new ArrayList<User>();
-        User loginUser = (User)session.getAttribute("loginUser");
+        User loginUser = (User) session.getAttribute("loginUser");
         g = groupService.selectGroup(loginUser.getUserid().toString(), (String) mp.get("group"));
-        if(g == null){
-            data.put("msg","邀请失败，请保证您创建了该群组！");
+        if (g == null) {
+            data.put("msg", "邀请失败，请保证您创建了该群组！");
             return data.toString();
         }
         for (Map.Entry<String, Object> entry : mp.entrySet()) {
-            if(entry.getKey().equals("group"))
+            if (entry.getKey().equals("group"))
                 continue;
-            else{
+            else {
                 User member = userService.findUserByName((String) entry.getValue());
 
                 if (member == null) {
-                    data.put("msg","邀请失败，请保证所有被邀请的用户存在！");
+                    data.put("msg", "邀请失败，请保证所有被邀请的用户存在！");
                     return data.toString();
                 } else if (groupService.isInGroup(member.getUserid().toString(), g.getGroupid().toString())) {
-                    data.put("msg","邀请失败，邀请了已在群组中的用户！");
+                    data.put("msg", "邀请失败，邀请了已在群组中的用户！");
                     return data.toString();
                 } else {
                     inviteList.add(member);
@@ -90,12 +91,23 @@ public class GroupController {
 
         }
         for (User user : inviteList) {
-            groupService.addGroupMember(g.getGroupid().toString(),user.getUserid().toString(),user.getUsername(),g.getGroupname());
+            groupService.addGroupMember(g.getGroupid().toString(), user.getUserid().toString(), user.getUsername(), g.getGroupname());
         }
-        data.put("msg","邀请成功！");
+        data.put("msg", "邀请成功！");
         return data.toString();
     }
 
+    @RequestMapping(value = {"/delete_member","/leave_group"}, method = {RequestMethod.GET})
+    public String delete_member(String groupid,String memberid,HttpServletRequest request,RedirectAttributes redirectAttributes) {
+            groupService.deleteMemberOrLeaveGroup(groupid,memberid);
+        String requestString = request.getServletPath();
+        if (requestString.equals("/delete_member")) {
+            redirectAttributes.addFlashAttribute("error_msg","您已成功删除该成员！");
+        } else if (requestString.equals("/leave_group")) {
+            redirectAttributes.addFlashAttribute("error_msg","您已退出该群组！");
+        }
+        return "redirect:/search?op=2";
+    }
 
 
 }

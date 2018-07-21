@@ -14,6 +14,8 @@ public interface GroupDao {
         public void addGroupMember(@Param("groupid") Integer groupid, @Param("userid") Integer userid,
                                    @Param("username") String username,@Param("groupname") String groupname);
 
+        public void deleteMemberOrLeaveGroup(@Param("groupid") Integer groupid,@Param("memberid") Integer memberid);
+
         public Group selectGroup(@Param("userid")Integer userid,@Param("groupname")String groupname);
 
         public List<Group> findAllCreateGroup(Integer userid);

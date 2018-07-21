@@ -18,4 +18,6 @@ public interface GroupService {
     public Group selectGroupById(String groupid);
 
     public boolean isInGroup(String userid,String groupid);
+
+    public void deleteMemberOrLeaveGroup(String groupid,String memberid);
 }

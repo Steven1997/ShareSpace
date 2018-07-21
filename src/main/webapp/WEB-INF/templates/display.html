@@ -12,22 +12,60 @@
 <div class="layui-container">
     <div class="layui-col-md3">
         <h3 style="color: white" align="center" th:text="${groupname} + '群组成员'"></h3>
-        <table class="layui-table">
+
+        <table th:if="${right == 'delete'}"class="layui-table">
             <colgroup>
+                <col width="50">
                 <col width="50">
             </colgroup>
             <thead>
             <tr>
                 <th style="text-align: center">用户名</th>
+                <th style="text-align: center">删除</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="memberList:${memberList}">
                 <td style="text-align: center" th:text="${memberList.getUsername()}"></td>
+                <td style="text-align: center">
+                    <a th:href="${memberList.getUserid() == session.loginUser.getUserid()}?'javascript:void(0)':@{/delete_member(memberid=${memberList.getUserid()},groupid=${groupid})}">
+                    <button th:class="${memberList.getUserid() == session.loginUser.getUserid()}?'layui-btn layui-btn-disabled':'layui-btn layui-btn-danger'" id="delete_member">
+                        删除
+                    </button>
+                </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table th:if="${right == 'leave'}"class="layui-table">
+            <colgroup>
+                <col width="50">
+                <col width="50">
+            </colgroup>
+            <thead>
+            <tr>
+                <th style="text-align: center">用户名</th>
+                <th style="text-align: center">退出</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="memberList:${memberList}">
+                <td style="text-align: center" th:text="${memberList.getUsername()}"></td>
+                <td style="text-align: center">
+                    <a th:href="${memberList.getUserid() == session.loginUser.getUserid()}?@{/leave_group(memberid=${memberList.getUserid()},groupid=${groupid})}:'javascript:void(0)'">
+                        <button th:class="${memberList.getUserid() == session.loginUser.getUserid()}?'layui-btn layui-btn-danger':'layui-btn layui-btn-disabled'" id="leave_group">
+                            退出
+                        </button>
+                    </a>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 
 </div>
+
+
 </body>
+
+

@@ -1,5 +1,6 @@
 package cn.captainshen.controller;
 
+import cn.captainshen.entity.Group;
 import cn.captainshen.entity.User;
 import cn.captainshen.service.GroupService;
 import cn.captainshen.service.UserService;
@@ -89,11 +90,17 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/findUsersByGroupId/{groupid}",method = {RequestMethod.GET})
-    public String findUsersByGroupId(@PathVariable("groupid") String groupid,Model model){
+    public String findUsersByGroupId(@PathVariable("groupid") String groupid,Model model,HttpSession session){
         List<User> memberList = userService.findUsersByGroupId(groupid);
         String groupname = groupService.selectGroupById(groupid).getGroupname();
         model.addAttribute("memberList",memberList);
         model.addAttribute("groupname",groupname);
+        model.addAttribute("groupid",groupid);
+        Group group = groupService.selectGroupById(groupid);
+        if(((User)session.getAttribute("loginUser")).getUserid() == group.getUserid())
+            model.addAttribute("right","delete");
+        else
+            model.addAttribute("right","leave");
         return "display";
     }
 }
