@@ -45,7 +45,7 @@
     </select>
 
     <select id="findPublicFilesByFileName" resultMap="fileMap">
-        SELECT * FROM sfile WHERE filecheck = 1 AND filestate = 2 AND filename LIKE concat('%', #{fileName}, '%')
+        SELECT * FROM sfile WHERE filestate != 0 AND filename LIKE concat('%', #{fileName}, '%')
     </select>
 
     <update id="updateFileInfo">

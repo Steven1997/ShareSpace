@@ -89,6 +89,7 @@ public class FileController {
     public String searchPublicFile(@RequestParam("keywords") String keywords, Model model){
         List<LocalFile> searchResult = fileService.findPublicFilesByFileName(keywords);
         model.addAttribute("searchResult", searchResult);
+//        System.out.println(searchResult);
         return "search";
     }
 
