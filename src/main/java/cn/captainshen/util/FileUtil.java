@@ -79,23 +79,23 @@ public class FileUtil {
      * @return
      */
     public ResponseEntity<byte[]> buildResponseEntity(File file, int fileId){
-        try{
+        try(InputStream in = new FileInputStream(file);) {
             byte[] body = null;
             // 获取文件
-            InputStream in = new FileInputStream(file);
+
             body = new byte[in.available()];
             in.read(body);
             HttpHeaders headers = new HttpHeaders();
             // 设置文件类型
             // 解决中文乱码问题
-            String fileName=new String(fileDao.findFileByFileId(fileId).getFileName().getBytes("utf-8"),"iso-8859-1");
+            String fileName = new String(fileDao.findFileByFileId(fileId).getFileName().getBytes("utf-8"), "iso-8859-1");
 
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers.setContentDispositionFormData("attachment", fileName);
             HttpStatus statusCode = HttpStatus.OK;
             ResponseEntity<byte[]> entity = new ResponseEntity<>(body, headers, statusCode);
             return entity;
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
